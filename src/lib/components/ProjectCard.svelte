@@ -7,9 +7,9 @@
 		CardFooter,
 		CardHeader,
 		CardTitle
-	} from '$lib/components/ui/card'; //
-	import { Badge } from '$lib/components/ui/badge'; //
-	import { Button } from '$lib/components/ui/button'; //
+	} from '$lib/components/ui/card'; 
+	import { Badge } from '$lib/components/ui/badge'; 
+	import { Button } from '$lib/components/ui/button'; 
 	import { ExternalLink, Github, Construction } from 'lucide-svelte';
 
 	export let project: Project;

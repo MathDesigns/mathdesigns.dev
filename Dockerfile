@@ -21,7 +21,7 @@ RUN npm prune --omit=dev
 #   • tini as PID 1 (proper signal handling)
 #   • CA certificates
 #   • a non-root default user (UID 1337)
-FROM gcr.io/distroless/nodejs:20 AS runtime
+FROM gcr.io/distroless/nodejs20 AS runtime
 WORKDIR /app
 
 COPY --from=builder /app/build        ./build
