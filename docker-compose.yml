@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: svelte-deploy
+    user: "1337"
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Brussels
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - caddy
+networks:
+  caddy:
+    external: true
