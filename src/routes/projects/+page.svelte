@@ -17,93 +17,108 @@
 
 
 	async function fetchProjects() {
-		isLoading = true;
-		error = null;
-		try {
-			const githubResponse = await fetch('https://api.github.com/users/MathDesigns/repos?sort=pushed&per_page=50');
-			if (!githubResponse.ok) {
-				throw new Error(`GitHub API request failed: ${githubResponse.status}`);
-			}
-			const githubData = await githubResponse.json();
-			
-			const projectPromises: Promise<Project>[] = githubData
-				.filter((repo: any) => !repo.fork && repo.description) 
-				.map(async (repo: any): Promise<Project> => { 
-					const technologies = [];
-					if (repo.language) {
-						technologies.push(repo.language);
-					}
-					if (repo.topics && Array.isArray(repo.topics)) {
-						technologies.push(...repo.topics);
-					}
+    isLoading = true;
+    error = null;
+    try {
+        const githubResponse = await fetch('https://api.github.com/users/MathDesigns/repos?sort=pushed&per_page=50');
+        if (!githubResponse.ok) {
+            throw new Error(`GitHub API request failed: ${githubResponse.status}`);
+        }
+        const githubData = await githubResponse.json();
 
-					let status: Project['status'] = 'Completed'; 
-					if (repo.archived) {
-						status = 'Archived';
-					} else {
-						const lastPush = new Date(repo.pushed_at);
-						const threeMonthsAgo = new Date();
-						threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-						if (lastPush > threeMonthsAgo) {
-							status = 'In Progress';
-						}
-					}
-					
-                    let catImageUrl: string | undefined = undefined;
-                    try {
-                        const catResponse = await fetch('https://api.thecatapi.com/v1/images/search?mime_types=gif');
-                        if (catResponse.ok) {
-                            const catData = await catResponse.json();
-                            if (catData && catData.length > 0 && catData[0].url) {
-                                catImageUrl = catData[0].url;
-                            }
-                        }
-                    } catch (catFetchError) {
+        // 1. Process GitHub data immediately without images
+        const initialProjects: Project[] = githubData
+            .filter((repo: any) => !repo.fork && repo.description)
+            .map((repo: any): Project => {
+                const technologies = [];
+                if (repo.language) technologies.push(repo.language);
+                if (repo.topics && Array.isArray(repo.topics)) technologies.push(...repo.topics);
+
+                let status: Project['status'] = 'Completed';
+                if (repo.archived) {
+                    status = 'Archived';
+                } else {
+                    const lastPush = new Date(repo.pushed_at);
+                    const threeMonthsAgo = new Date();
+                    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+                    if (lastPush > threeMonthsAgo) {
+                        status = 'In Progress';
                     }
-
-					return {
-						id: repo.id.toString(),
-						title: repo.name, 
-						description: repo.description || 'No description available.',
-						imageUrl: catImageUrl,
-						technologies: [...new Set(technologies)], 
-						liveLink: repo.homepage || undefined,
-						sourceLink: repo.html_url,
-						status: status,
-					};
-				});
-			
-            allProjects = await Promise.all(projectPromises);
-
-			const mainLanguages = [
-				...new Set(
-					allProjects
-						.map(p => (p.technologies && p.technologies.length > 0 ? p.technologies[0] : null))
-						.filter((lang): lang is string => typeof lang === 'string' && lang.trim() !== '')
-				)
-			];
-			availableFilters = ['All', ...statuses, ...mainLanguages].sort((a, b) => {
-                if (a === 'All') return -1;
-                if (b === 'All') return 1;
-                const aIsStatus = statuses.includes(a as 'Completed' | 'In Progress' | 'Archived');
-                const bIsStatus = statuses.includes(b as 'Completed' | 'In Progress' | 'Archived');
-                
-                if (aIsStatus && !bIsStatus) return -1;
-                if (!aIsStatus && bIsStatus) return 1;
-                if (aIsStatus && bIsStatus) { 
-                    return statuses.indexOf(a as 'Completed' | 'In Progress' | 'Archived') - statuses.indexOf(b as 'Completed' | 'In Progress' | 'Archived');
                 }
-                return a.localeCompare(b); 
+
+                return {
+                    id: repo.id.toString(),
+                    title: repo.name,
+                    description: repo.description || 'No description available.',
+                    imageUrl: undefined, // Load this later
+                    technologies: [...new Set(technologies)],
+                    liveLink: repo.homepage || undefined,
+                    sourceLink: repo.html_url,
+                    status: status,
+                };
             });
 
-		} catch (e: any) {
-			console.error("Failed to fetch projects:", e);
-			error = e.message || 'Failed to load projects from GitHub.';
-			allProjects = []; 
-		} finally {
-			isLoading = false;
-		}
-	}
+        allProjects = initialProjects;
+        
+        // Calculate filters immediately
+        const mainLanguages = [
+            ...new Set(
+                allProjects
+                    .map(p => (p.technologies && p.technologies.length > 0 ? p.technologies[0] : null))
+                    .filter((lang): lang is string => typeof lang === 'string' && lang.trim() !== '')
+            )
+        ];
+        
+        // Sort logic remains the same...
+        availableFilters = ['All', ...statuses, ...mainLanguages].sort((a, b) => {
+             if (a === 'All') return -1;
+             if (b === 'All') return 1;
+             const aIsStatus = statuses.includes(a as any);
+             const bIsStatus = statuses.includes(b as any);
+             if (aIsStatus && !bIsStatus) return -1;
+             if (!aIsStatus && bIsStatus) return 1;
+             if (aIsStatus && bIsStatus) {
+                 return statuses.indexOf(a as any) - statuses.indexOf(b as any);
+             }
+             return a.localeCompare(b);
+        });
+
+        isLoading = false; // Show content immediately
+
+        // 2. Lazy load images in the background
+        loadProjectImages(initialProjects);
+
+    } catch (e: any) {
+        console.error("Failed to fetch projects:", e);
+        error = e.message || 'Failed to load projects from GitHub.';
+        allProjects = [];
+        isLoading = false;
+    }
+}
+
+// New helper function for lazy loading
+async function loadProjectImages(projects: Project[]) {
+    // We process them in small batches or one by one to avoid rate limits
+    for (let i = 0; i < projects.length; i++) {
+        try {
+            // Optional: Add a small delay between requests if needed
+            // await new Promise(r => setTimeout(r, 100)); 
+            
+            const catResponse = await fetch('https://api.thecatapi.com/v1/images/search?mime_types=gif');
+            if (catResponse.ok) {
+                const catData = await catResponse.json();
+                if (catData && catData.length > 0 && catData[0].url) {
+                    // Update the specific project in the array
+                    allProjects[i] = { ...allProjects[i], imageUrl: catData[0].url };
+                    // Trigger Svelte reactivity
+                    allProjects = allProjects; 
+                }
+            }
+        } catch (err) {
+            console.warn(`Failed to load image for project ${projects[i].title}`, err);
+        }
+    }
+}
 
 	onMount(() => {
 		fetchProjects();
