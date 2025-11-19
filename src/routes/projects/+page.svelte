@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
 	import { onMount } from 'svelte';
 	import type { Project } from '$lib/types/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
@@ -6,14 +8,14 @@
 	import { Filter, Loader2 } from 'lucide-svelte';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 
-	let allProjects: Project[] = [];
-	let filteredProjects: Project[] = [];
-	let isLoading = true;
-	let error: string | null = null;
+	let allProjects: Project[] = $state([]);
+	let filteredProjects: Project[] = $state([]);
+	let isLoading = $state(true);
+	let error: string | null = $state(null);
 
-	let currentFilter = 'All';
+	let currentFilter = $state('All');
 	const statuses: ('Completed' | 'In Progress' | 'Archived')[] = ['Completed', 'In Progress', 'Archived'];
-	let availableFilters: string[] = ['All', ...statuses];
+	let availableFilters: string[] = $state(['All', ...statuses]);
 
 
 	async function fetchProjects() {
@@ -69,7 +71,6 @@
             )
         ];
         
-        // Sort logic remains the same...
         availableFilters = ['All', ...statuses, ...mainLanguages].sort((a, b) => {
              if (a === 'All') return -1;
              if (b === 'All') return 1;
@@ -83,7 +84,7 @@
              return a.localeCompare(b);
         });
 
-        isLoading = false; // Show content immediately
+        isLoading = false;
 
         // 2. Lazy load images in the background
         loadProjectImages(initialProjects);
@@ -101,8 +102,6 @@ async function loadProjectImages(projects: Project[]) {
     // We process them in small batches or one by one to avoid rate limits
     for (let i = 0; i < projects.length; i++) {
         try {
-            // Optional: Add a small delay between requests if needed
-            // await new Promise(r => setTimeout(r, 100)); 
             
             const catResponse = await fetch('https://api.thecatapi.com/v1/images/search?mime_types=gif');
             if (catResponse.ok) {
@@ -124,7 +123,7 @@ async function loadProjectImages(projects: Project[]) {
 		fetchProjects();
 	});
 
-	$: {
+	run(() => {
 		if (currentFilter === 'All') {
 			filteredProjects = allProjects;
 		} else if (statuses.includes(currentFilter as 'Completed' | 'In Progress' | 'Archived')) {
@@ -136,7 +135,7 @@ async function loadProjectImages(projects: Project[]) {
 				p.technologies[0]?.toLowerCase() === currentFilter.toLowerCase()
 			);
 		}
-	}
+	});
 
 </script>
 
