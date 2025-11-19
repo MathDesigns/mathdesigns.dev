@@ -12,7 +12,11 @@
 	import { Button } from '$lib/components/ui/button'; 
 	import { ExternalLink, Github, Construction } from 'lucide-svelte';
 
-	export let project: Project;
+	interface Props {
+		project: Project;
+	}
+
+	let { project }: Props = $props();
 </script>
 
 <Card class="flex flex-col h-full group overflow-hidden transform transition-all duration-300 ease-in-out 

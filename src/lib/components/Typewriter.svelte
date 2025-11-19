@@ -2,13 +2,22 @@
 	import { onMount, onDestroy }
 from 'svelte';
 
-	export let texts: string[] = ['404']; 
-	export let typingSpeed: number = 100; 
-	export let deletingSpeed: number = 50; 
-	export let delayBetweenTexts: number = 2000; 
+	interface Props {
+		texts?: string[];
+		typingSpeed?: number;
+		deletingSpeed?: number;
+		delayBetweenTexts?: number;
+	}
+
+	let {
+		texts = ['404'],
+		typingSpeed = 100,
+		deletingSpeed = 50,
+		delayBetweenTexts = 2000
+	}: Props = $props();
 
 	let currentTextIndex = 0;
-	let displayedText = '';
+	let displayedText = $state('');
 	let isDeleting = false;
 	let charIndex = 0;
 

@@ -1,38 +1,35 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
 	import { DoorOpen, Volume2, VolumeX, AlertTriangle } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
-	const status = $page.status;
-	const error = $page.error;
+	const status = page.status;
+	const error = page.error;
 
-	// Backrooms-specific lore for errors
 	let errorTitle = status === 404 ? 'Level 404: The Missing Sector' : 'Entity Contact';
-	let errorDescription = status === 404 
+	let errorDescription = $state(status === 404 
         ? "You've noclipped into a sector that hasn't rendered yet. The geometry here is unstable." 
-        : "An unknown entity has corrupted the data stream.";
+        : "An unknown entity has corrupted the data stream.");
 
     if (error?.message) {
         errorDescription = error.message;
     }
 
-	// Audio Logic (No Autoplay)
-	let audioElement: HTMLAudioElement;
-	let isMuted = true;
+	let audioElement: HTMLAudioElement | undefined = $state();
+	let isMuted = $state(true);
 
 	function toggleMute() {
 		if (!audioElement) return;
 		isMuted = !isMuted;
 		audioElement.muted = isMuted;
 		if (!isMuted) {
-			audioElement.volume = 0.15; // Low hum volume
+			audioElement.volume = 0.15;
 			audioElement.play().catch(() => { isMuted = true; });
 		}
 	}
     
-    // Camcorder timestamp
-    let timestamp = '';
+    let timestamp = $state('');
     onMount(() => {
         const interval = setInterval(() => {
             const now = new Date();

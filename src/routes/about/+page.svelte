@@ -131,7 +131,7 @@
 					style="transition-delay: {i * 100}ms;"
 				>
 					<div class="mt-1 flex-shrink-0 rounded-full bg-primary/10 p-3 {event.color}">
-						<svelte:component this={event.icon} class="h-6 w-6" />
+						<event.icon class="h-6 w-6" />
 					</div>
 					<div>
 						<h3 class="mb-1 text-xl font-semibold text-foreground md:text-2xl">{event.title}</h3>
@@ -159,7 +159,7 @@
 				>
 					<div class="mb-3 flex items-center">
 						<div class="mr-4 rounded-full bg-primary/10 p-2.5 text-primary">
-							<svelte:component this={item.icon} class="h-6 w-6" />
+							<item.icon class="h-6 w-6" />
 						</div>
 						<h3 class="text-xl font-semibold text-foreground">{item.name}</h3>
 					</div>
