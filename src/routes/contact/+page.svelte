@@ -180,13 +180,15 @@
 				</div>
 
 				{#if formMessage}
-					<p
-						class="text-sm {formStatus === 'success'
-							? 'text-green-600 dark:text-green-400'
-							: 'text-red-600 dark:text-red-400'}"
+					<div
+						role="alert"
+						aria-live="polite"
+						class="rounded-md border p-3 text-sm font-medium {formStatus === 'success'
+							? 'border-green-200 bg-green-50 text-green-600 dark:border-green-900 dark:bg-green-900/20'
+							: 'border-red-200 bg-red-50 text-red-600 dark:border-red-900 dark:bg-red-900/20'}"
 					>
 						{formMessage}
-					</p>
+					</div>
 				{/if}
 
 				<div>

@@ -15,7 +15,9 @@
 	export let project: Project;
 </script>
 
-<Card class="flex flex-col h-full group overflow-hidden transform transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
+<Card class="flex flex-col h-full group overflow-hidden transform transition-all duration-300 ease-in-out 
+             hover:shadow-xl hover:-translate-y-1 
+             active:scale-[0.98] active:shadow-sm cursor-pointer">
 	{#if project.imageUrl}
 		<div class="overflow-hidden aspect-[16/9]">
 			<img
