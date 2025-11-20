@@ -1,9 +1,11 @@
-import { fontFamily } from "tailwindcss/defaultTheme"
+import defaultTheme from "tailwindcss/defaultTheme"
 import type { Config } from "tailwindcss"
+import tailwindcssAnimate from "tailwindcss-animate"
 
 const config: Config = {
-  darkMode: ["selector"],
+  darkMode: "selector",
   content: ["./src/**/*.{html,js,svelte,ts}"],
+  // @ts-ignore - safelist is a valid Tailwind config option
   safelist: ["dark"],
   theme: {
     container: {
@@ -48,6 +50,16 @@ const config: Config = {
           DEFAULT: "hsl(var(--card) / <alpha-value>)",
           foreground: "hsl(var(--card-foreground) / <alpha-value>)",
         },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -55,8 +67,9 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Inter", ...fontFamily.sans],
-        mono: ["Share Tech Mono", ...fontFamily.mono],
+        // Access fontFamily properties via the defaultTheme object
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        mono: ["Share Tech Mono", ...defaultTheme.fontFamily.mono],
       },
       keyframes: {
         carousel: {
@@ -67,14 +80,29 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-5px)" },
         },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--bits-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--bits-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         carousel: "carousel 30s linear infinite",
         floating: "floating 3s ease-in-out infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },
+  plugins: [tailwindcssAnimate],
 }
 
 export default config
-

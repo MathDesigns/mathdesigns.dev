@@ -1,9 +1,61 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@config '../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility animate-initial-hidden {
+  @apply translate-y-8 opacity-0;
+  &.is-visible {
+    @apply translate-y-0 opacity-100;
+  }
+}
+
+@utility is-visible {
+  &.animate-initial-hidden {
+    @apply translate-y-0 opacity-100;
+  }
+  &.animate-initial-scale-down {
+    @apply scale-100 opacity-100;
+  }
+}
+
+@utility animate-initial-scale-down {
+  @apply scale-90 opacity-0;
+  &.is-visible {
+    @apply scale-100 opacity-100;
+  }
+}
+
+@utility transition-default {
+  @apply transition-all duration-700 ease-out;
+}
+
+@utility transition-fast {
+  @apply transition-all duration-300 ease-out;
+}
+
+@utility transition-slow {
+  @apply transition-all duration-1000 ease-out;
+}
 
 @layer base {
-	@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 	:root {
 		--background: 0 0% 0%;
@@ -275,31 +327,8 @@
 	}
 }
 
-.font-mono {
-	font-family: 'Share Tech Mono', monospace;
-}
-
-
 @layer utilities {
-	.animate-initial-hidden {
-		@apply translate-y-8 opacity-0;
-	}
-	.is-visible.animate-initial-hidden {
-		@apply translate-y-0 opacity-100;
-	}
-	.animate-initial-scale-down {
-		@apply scale-90 opacity-0;
-	}
-	.is-visible.animate-initial-scale-down {
-		@apply scale-100 opacity-100;
-	}
-	.transition-default {
-		@apply transition-all duration-700 ease-out;
-	}
-	.transition-fast {
-		@apply transition-all duration-300 ease-out;
-	}
-	.transition-slow {
-		@apply transition-all duration-1000 ease-out;
-	}
+  .font-mono {
+    font-family: 'Share Tech Mono', monospace;
+  }
 }
