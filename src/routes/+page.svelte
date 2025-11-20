@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Typewriter from '$lib/components/Typewriter.svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { ArrowDown, CodeXml, Sparkles } from 'lucide-svelte';
+	import { ArrowDown, CodeXml, Sparkles } from '@lucide/svelte';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 
 	const typewriterTexts = [
@@ -23,7 +23,7 @@
 	style="--hero-bg-pattern: url('data:image/svg+xml,%3Csvg width=\'52\' height=\'26\' viewBox=\'0 0 52 26\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6zM26 26c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6zM39 0c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6h-2c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zM52 13c0 2.21-1.79 4-4 4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
 >
 	<div class="absolute inset-0 -z-10 opacity-10 dark:opacity-5">
-		<div class="absolute inset-0 bg-[var(--hero-bg-pattern)]"></div>
+		<div class="absolute inset-0 bg-(--hero-bg-pattern)"></div>
 	</div>
 
 	<div 

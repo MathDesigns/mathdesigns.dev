@@ -10,7 +10,7 @@
 	} from '$lib/components/ui/card'; 
 	import { Badge } from '$lib/components/ui/badge'; 
 	import { Button } from '$lib/components/ui/button'; 
-	import { ExternalLink, Github, Construction } from 'lucide-svelte';
+	import { ExternalLink, Github, Construction } from '@lucide/svelte';
 
 	interface Props {
 		project: Project;
@@ -23,7 +23,7 @@
              hover:shadow-xl hover:-translate-y-1 
              active:scale-[0.98] active:shadow-sm cursor-pointer">
 	{#if project.imageUrl}
-		<div class="overflow-hidden aspect-[16/9]">
+		<div class="overflow-hidden aspect-video">
 			<img
 				src={project.imageUrl}
 				alt={project.title}
@@ -43,7 +43,7 @@
 			{project.description}
 		</CardDescription>
 	</CardHeader>
-	<CardContent class="flex-grow">
+	<CardContent class="grow">
 		<div class="mb-2">
 			<h4 class="text-xs font-semibold uppercase text-muted-foreground mb-1">Technologies:</h4>
 			<div class="flex flex-wrap gap-1">

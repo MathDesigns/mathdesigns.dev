@@ -22,8 +22,8 @@ import {
 	Gamepad2,
 	DraftingCompass,
 	Cat,
-	CircleDot
-} from 'lucide-svelte';
+	CircleDot, type Icon as iconType
+} from '@lucide/svelte';
 
 const initialCommands: App.Command[] = [
 	{

@@ -1,5 +1,5 @@
 import type { ComponentType } from 'svelte';
-import type { LucideIcon } from 'lucide-svelte';
+import type { LucideIcon } from '@lucide/svelte';
 
 declare global {
 	namespace App {
@@ -8,7 +8,7 @@ declare global {
 			id: string;
 			label: string;
 			action: () => void;
-			icon?: ComponentType<LucideIcon>;
+			icon?: typeof IconType;
 			category?: string;
 			keywords?: string[];
 		}

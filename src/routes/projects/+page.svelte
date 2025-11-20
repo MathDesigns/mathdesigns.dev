@@ -5,7 +5,7 @@
 	import type { Project } from '$lib/types/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { Filter, Loader2 } from 'lucide-svelte';
+	import { Filter, Loader2 } from '@lucide/svelte';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 
 	let allProjects: Project[] = $state([]);
@@ -162,7 +162,7 @@ async function loadProjectImages(projects: Project[]) {
 		<div class="text-center py-20">
 			<p class="text-destructive text-lg mb-2">Oops! Something went wrong.</p>
 			<p class="text-muted-foreground mb-4">{error}</p>
-			<Button on:click={fetchProjects} variant="outline">
+			<Button onclick={fetchProjects} variant="outline">
 				Try Again
 			</Button>
 		</div>
@@ -178,7 +178,7 @@ async function loadProjectImages(projects: Project[]) {
 					size="sm"
 					class="text-xs h-8 px-3 rounded-full transition-all duration-200 ease-in-out
                            {currentFilter === filterName ? 'shadow-md' : 'hover:bg-accent/50'}"
-					on:click={() => (currentFilter = filterName)}
+					onclick={() => (currentFilter = filterName)}
 				>
 					{filterName}
 				</Button>

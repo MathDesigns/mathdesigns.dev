@@ -11,7 +11,7 @@
 		Palette,
 		CheckCircle2,
 		ArrowRight
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 	import { Button } from '$lib/components/ui/button';
 
@@ -130,7 +130,7 @@
 					use:animateOnScroll={{ threshold: 0.2, rootMargin: '0px 0px -50px 0px' }}
 					style="transition-delay: {i * 100}ms;"
 				>
-					<div class="mt-1 flex-shrink-0 rounded-full bg-primary/10 p-3 {event.color}">
+					<div class="mt-1 shrink-0 rounded-full bg-primary/10 p-3 {event.color}">
 						<event.icon class="h-6 w-6" />
 					</div>
 					<div>
