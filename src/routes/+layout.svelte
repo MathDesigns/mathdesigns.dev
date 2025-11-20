@@ -3,26 +3,32 @@
 	import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
 	import CommandPaletteComponent from '$lib/components/CommandPalette.svelte';
 	import { cmd as commandPalette } from '$lib/stores/commandPaletteStore';
-	import activeTheme from '$lib/stores/themeStore';
 	import { browser } from '$app/environment';
-	import { Menu, X, Command as CommandIcon, ArrowDown } from '@lucide/svelte';
+	import { Menu, X, Command as CommandIcon, ArrowDown, Terminal, Activity, Wifi } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { page } from '$app/stores';
 	import { fly } from 'svelte/transition';
 	
 	let { children } = $props();
-
 	let mobileMenuOpen = $state(false);
 	let showBackToTop = $state(false);
 	let scrollY = $state(0);
+    let currentTime = $state(new Date().toLocaleTimeString());
 
 	const navLinks = [
-		{ href: '/projects', text: 'Projects' },
-		{ href: '/about', text: 'About' },
-		{ href: '/contact', text: 'Contact' }
+		{ href: '/projects', text: '~/projects' },
+		{ href: '/about', text: '~/about' },
+		{ href: '/contact', text: '~/contact' }
 	];
 
-	
+    // Update time for the status bar
+    $effect(() => {
+        const interval = setInterval(() => {
+            currentTime = new Date().toLocaleTimeString();
+        }, 1000);
+        return () => clearInterval(interval);
+    });
+
 	// Close mobile menu on navigation
 	$effect(() => {
 		const path = $page.url.pathname;
@@ -32,16 +38,12 @@
 	// Handle Body Scroll Lock
 	$effect(() => {
 		if (!browser) return;
-		
 		if (mobileMenuOpen) {
 			document.body.style.overflow = 'hidden';
 		} else {
 			document.body.style.overflow = '';
 		}
-		
-		return () => {
-			document.body.style.overflow = '';
-		};
+		return () => { document.body.style.overflow = ''; };
 	});
 
 	// Handle Scroll Position for Back to Top
@@ -62,59 +64,70 @@
 
 <svelte:window onkeydown={handleGlobalKeydown} onscroll={handleScroll} />
 
-<div class="min-h-screen flex flex-col">
+<div class="min-h-screen flex flex-col font-mono">
 	<header
-		data-layout-fixed
-		class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 p-4 backdrop-blur supports-backdrop-filter:bg-background/60"
+		class="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80"
 	>
-		<div class="max-w-(--breakpoint-2xl) container flex h-14 items-center">
-			<a href="/" class="mr-6 flex items-center space-x-2" onclick={() => (mobileMenuOpen = false)}>
-				<img
-					src="/logo.png"
-					alt="MathDesigns Home"
-					width="28"
-					height="28"
-					class="text-primary h-7 w-7 transition-transform hover:rotate-[-15deg]"
-				/>
-
-				<span class="hover:text-primary text-xl font-semibold transition-colors">MathDesigns</span>
+		<div class="max-w-(--breakpoint-2xl) container flex h-14 items-center px-4">
+            <a href="/" class="mr-8 flex items-center space-x-2 group" onclick={() => (mobileMenuOpen = false)}>
+                <div class="bg-primary/10 p-1.5 rounded-sm group-hover:bg-primary/20 transition-colors">
+                    <Terminal class="h-5 w-5 text-primary" />
+                </div>
+				<span class="text-lg font-bold tracking-wider">MathDesigns<span class="text-primary animate-pulse">_</span></span>
 			</a>
 
-			<nav class="hidden flex-1 items-center space-x-2 md:flex">
+            <nav class="hidden flex-1 items-center space-x-1 md:flex">
 				{#each navLinks as link}
-					<Button
-						variant="link"
+					<a
 						href={link.href}
-						class="px-3 py-2 text-sm font-medium {$page.url.pathname === link.href
-							? 'text-primary underline underline-offset-4'
-							: 'text-muted-foreground hover:text-foreground hover:no-underline'}"
+						class="px-4 py-1.5 text-sm font-medium transition-colors rounded-sm relative
+                            {$page.url.pathname === link.href
+							? 'text-primary bg-primary/5'
+							: 'text-muted-foreground hover:text-primary hover:bg-white/5'}"
 						data-sveltekit-preload-data="hover"
 						data-sveltekit-preload-code="hover"
 					>
-						{link.text}
-					</Button>
+                        {link.text}
+                        {#if $page.url.pathname === link.href}
+                            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"></span>
+                        {/if}
+					</a>
 				{/each}
 			</nav>
 
-			<div class="ml-auto flex items-center gap-2 md:ml-4">
+            <div class="ml-auto flex items-center gap-4">
+                <div class="hidden lg:flex items-center space-x-3 text-xs text-muted-foreground border-r border-border/50 pr-4 mr-1">
+                    <div class="flex items-center gap-1.5">
+                        <Wifi class="h-3 w-3" />
+                        <span>CONN: ESTABLISHED</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span class="text-green-500">SYSTEM ONLINE</span>
+                    </div>
+                </div>
+
 				<Button
 					onclick={commandPalette.open}
 					variant="outline"
-					size="icon"
-					aria-label="Open command palette"
-					class="hidden h-9 w-9 sm:flex"
+					size="sm"
+                    class="hidden sm:flex gap-2 text-muted-foreground border-dashed border-border"
 				>
-					<CommandIcon class="h-4 w-4" />
+					<span class="text-xs">Search...</span>
+					<kbd class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+						<span class="text-xs">⌘</span>K
+					</kbd>
 				</Button>
-				<ThemeSwitcher />
 				
-				<div class="md:hidden">
+                <div class="md:hidden">
 					<Button
 						onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
 						variant="ghost"
 						size="icon"
-						aria-label="Toggle menu"
-						class="h-9 w-9"
+                        class="text-primary"
 					>
 						{#if mobileMenuOpen}
 							<X class="h-5 w-5" />
@@ -128,57 +141,73 @@
 
 		{#if mobileMenuOpen}
 			<div
-				class="bg-background/95 absolute left-0 right-0 top-full max-h-[calc(100vh-3.5rem)] overflow-y-auto border-b border-border pb-4 shadow-lg backdrop-blur-md md:hidden"
+				class="bg-background/95 absolute left-0 right-0 top-full border-b border-border shadow-2xl backdrop-blur-md md:hidden min-h-screen"
 				transition:fly={{ y: -10, duration: 200 }}
 			>
-				<nav class="flex flex-col items-stretch gap-1 p-2">
+				<nav class="flex flex-col p-4 space-y-2">
 					{#each navLinks as link}
-						<Button
-							variant="ghost"
+						<a
 							href={link.href}
-							class="w-full justify-start px-3 py-3 text-base {$page.url.pathname === link.href
-								? 'text-black bg-white'
-								: 'text-foreground hover:bg-accent/50'}"
+							class="flex items-center px-4 py-3 text-base font-medium rounded-md border border-transparent
+                                {$page.url.pathname === link.href
+								? 'text-primary bg-primary/10 border-primary/20'
+								: 'text-foreground hover:bg-muted'}"
 							onclick={() => (mobileMenuOpen = false)}
-							data-sveltekit-preload-data="hover"
-							data-sveltekit-preload-code="hover"
 						>
-							{link.text}
-						</Button>
+                            <span class="text-primary mr-2">></span> {link.text}
+						</a>
 					{/each}
-					<Button
+                    <div class="h-px bg-border my-2"></div>
+					<button
 						onclick={() => {
 							commandPalette.open();
 							mobileMenuOpen = false;
 						}}
-						variant="ghost"
-						class="text-foreground hover:bg-accent/50 w-full justify-start px-3 py-3 text-base"
+                        class="flex w-full items-center px-4 py-3 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md"
 					>
-						<CommandIcon class="mr-2 h-5 w-5" /> Command Palette
-					</Button>
+						<CommandIcon class="mr-2 h-4 w-4" /> Command Palette
+					</button>
 				</nav>
 			</div>
 		{/if}
 	</header>
 
-	<main class="flex-1 pt-[88px]">
+	<main class="flex-1">
 		{@render children()}
 	</main>
 
-	<footer class="text-muted-foreground p-4 text-center text-sm">
-		© {new Date().getFullYear()} MathDesigns | Writing FOSS with ❤️
-		<span class="hidden md:inline">(Cmd/Win + K for commands)</span>
+    <footer class="border-t border-border/40 bg-card/50 py-2 px-4 text-xs font-mono text-muted-foreground backdrop-blur-sm">
+        <div class="container flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span>MathDesigns © {new Date().getFullYear()}</span>
+                <span class="hidden md:inline text-border">|</span>
+                <span class="flex items-center gap-1">
+                    <Activity class="h-3 w-3" />
+                    <span>v2.0.0-alpha</span>
+                </span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                 <span>Ln 1, Col 1</span>
+                 <span class="hidden md:inline text-border">|</span>
+                 <span>UTF-8</span>
+                 <span class="hidden md:inline text-border">|</span>
+                 <span class="text-primary">{currentTime}</span>
+            </div>
+        </div>
 	</footer>
 </div>
 
 <button
-	class="bg-primary text-primary-foreground fixed bottom-6 right-6 z-40 rounded-full p-3 shadow-lg transition-all duration-300 {showBackToTop
+	class="bg-primary text-primary-foreground fixed bottom-6 right-6 z-40 rounded-none border border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] {showBackToTop
 		? 'translate-y-0 opacity-100'
 		: 'translate-y-10 opacity-0 pointer-events-none'}"
 	onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-	aria-label="Back to top"
+	aria-label="Return to top"
 >
-	<ArrowDown class="h-5 w-5 rotate-180" />
+    <div class="p-3 flex items-center gap-2 font-bold font-mono text-xs">
+        <ArrowDown class="h-4 w-4 rotate-180" /> TOP
+    </div>
 </button>
 
 <CommandPaletteComponent />

@@ -1,123 +1,92 @@
 <script lang="ts">
     import { run } from 'svelte/legacy';
-
 	import { onMount } from 'svelte';
 	import type { Project } from '$lib/types/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { Filter, Loader2 } from '@lucide/svelte';
+	import { Terminal, Loader2, Search, AlertCircle } from '@lucide/svelte';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 
 	let allProjects: Project[] = $state([]);
 	let filteredProjects: Project[] = $state([]);
 	let isLoading = $state(true);
 	let error: string | null = $state(null);
-
 	let currentFilter = $state('All');
+    
 	const statuses: ('Completed' | 'In Progress' | 'Archived')[] = ['Completed', 'In Progress', 'Archived'];
 	let availableFilters: string[] = $state(['All', ...statuses]);
 
-
 	async function fetchProjects() {
-    isLoading = true;
-    error = null;
-    try {
-        const githubResponse = await fetch('https://api.github.com/users/MathDesigns/repos?sort=pushed&per_page=50');
-        if (!githubResponse.ok) {
-            throw new Error(`GitHub API request failed: ${githubResponse.status}`);
-        }
-        const githubData = await githubResponse.json();
-
-        // 1. Process GitHub data immediately without images
-        const initialProjects: Project[] = githubData
-            .filter((repo: any) => !repo.fork && repo.description)
-            .map((repo: any): Project => {
-                const technologies = [];
-                if (repo.language) technologies.push(repo.language);
-                if (repo.topics && Array.isArray(repo.topics)) technologies.push(...repo.topics);
-
-                let status: Project['status'] = 'Completed';
-                if (repo.archived) {
-                    status = 'Archived';
-                } else {
-                    const lastPush = new Date(repo.pushed_at);
-                    const threeMonthsAgo = new Date();
-                    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-                    if (lastPush > threeMonthsAgo) {
-                        status = 'In Progress';
-                    }
-                }
-
-                return {
-                    id: repo.id.toString(),
-                    title: repo.name,
-                    description: repo.description || 'No description available.',
-                    imageUrl: undefined, // Load this later
-                    technologies: [...new Set(technologies)],
-                    liveLink: repo.homepage || undefined,
-                    sourceLink: repo.html_url,
-                    status: status,
-                };
-            });
-
-        allProjects = initialProjects;
-        
-        // Calculate filters immediately
-        const mainLanguages = [
-            ...new Set(
-                allProjects
-                    .map(p => (p.technologies && p.technologies.length > 0 ? p.technologies[0] : null))
-                    .filter((lang): lang is string => typeof lang === 'string' && lang.trim() !== '')
-            )
-        ];
-        
-        availableFilters = ['All', ...statuses, ...mainLanguages].sort((a, b) => {
-             if (a === 'All') return -1;
-             if (b === 'All') return 1;
-             const aIsStatus = statuses.includes(a as any);
-             const bIsStatus = statuses.includes(b as any);
-             if (aIsStatus && !bIsStatus) return -1;
-             if (!aIsStatus && bIsStatus) return 1;
-             if (aIsStatus && bIsStatus) {
-                 return statuses.indexOf(a as any) - statuses.indexOf(b as any);
-             }
-             return a.localeCompare(b);
-        });
-
-        isLoading = false;
-
-        // 2. Lazy load images in the background
-        loadProjectImages(initialProjects);
-
-    } catch (e: any) {
-        console.error("Failed to fetch projects:", e);
-        error = e.message || 'Failed to load projects from GitHub.';
-        allProjects = [];
-        isLoading = false;
-    }
-}
-
-// New helper function for lazy loading
-async function loadProjectImages(projects: Project[]) {
-    // We process them in small batches or one by one to avoid rate limits
-    for (let i = 0; i < projects.length; i++) {
-        try {
+		isLoading = true;
+		error = null;
+		try {
+			const githubResponse = await fetch('https://api.github.com/users/MathDesigns/repos?sort=pushed&per_page=50');
+			
+            if (!githubResponse.ok) {
+				throw new Error(`GitHub API request failed: ${githubResponse.status}`);
+			}
             
-            const catResponse = await fetch('https://api.thecatapi.com/v1/images/search?mime_types=gif');
-            if (catResponse.ok) {
-                const catData = await catResponse.json();
-                if (catData && catData.length > 0 && catData[0].url) {
-                    // Update the specific project in the array
-                    allProjects[i] = { ...allProjects[i], imageUrl: catData[0].url };
-                    // Trigger Svelte reactivity
-                    allProjects = allProjects; 
-                }
-            }
-        } catch (err) {
-            console.warn(`Failed to load image for project ${projects[i].title}`, err);
-        }
-    }
-}
+			const githubData = await githubResponse.json();
+			
+			const initialProjects: Project[] = githubData
+				.filter((repo: any) => !repo.fork && repo.description)
+				.map((repo: any): Project => {
+					const technologies = [];
+					if (repo.language) technologies.push(repo.language);
+					if (repo.topics && Array.isArray(repo.topics)) technologies.push(...repo.topics);
+
+					let status: Project['status'] = 'Completed';
+					if (repo.archived) {
+						status = 'Archived';
+					} else {
+						const lastPush = new Date(repo.pushed_at);
+						const threeMonthsAgo = new Date();
+						threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+						if (lastPush > threeMonthsAgo) {
+							status = 'In Progress';
+						}
+					}
+
+					return {
+						id: repo.id.toString(),
+						title: repo.name,
+						description: repo.description || 'No description available.',
+						technologies: [...new Set(technologies)],
+						liveLink: repo.homepage || undefined,
+						sourceLink: repo.html_url,
+						status: status
+					};
+				});
+
+			allProjects = initialProjects;
+			
+			// Extract languages for filters
+			const mainLanguages = [
+				...new Set(
+					allProjects
+						.map(p => (p.technologies && p.technologies.length > 0 ? p.technologies[0] : null))
+						.filter((lang): lang is string => typeof lang === 'string' && lang.trim() !== '')
+				)
+			];
+            
+			availableFilters = ['All', ...statuses, ...mainLanguages].sort((a, b) => {
+				if (a === 'All') return -1;
+				if (b === 'All') return 1;
+				const aIsStatus = statuses.includes(a as any);
+				const bIsStatus = statuses.includes(b as any);
+				if (aIsStatus && !bIsStatus) return -1;
+				if (!aIsStatus && bIsStatus) return 1;
+				return a.localeCompare(b);
+			});
+
+			isLoading = false;
+		} catch (e: any) {
+			console.error("Failed to fetch projects:", e);
+			error = e.message || 'Connection to GitHub Registry failed.';
+			allProjects = [];
+			isLoading = false;
+		}
+	}
 
 	onMount(() => {
 		fetchProjects();
@@ -136,71 +105,100 @@ async function loadProjectImages(projects: Project[]) {
 			);
 		}
 	});
-
 </script>
 
 <svelte:head>
-	<title>Projects | MathDesigns Portfolio</title>
-	<meta name="description" content="A collection of web development projects by MathDesigns, fetched from GitHub." />
+	<title>Registry | MathDesigns</title>
+	<meta name="description" content="Project Container Registry - MathDesigns" />
 </svelte:head>
 
-<div
-	class="animate-initial-hidden transition-default container mx-auto px-4 py-8 md:px-0"
-	use:animateOnScroll={{ once: true }}
->
-	<h1 class="mb-2 text-center text-3xl font-bold md:text-4xl">My GitHub Projects</h1>
-	<p class="mb-8 text-center text-lg text-muted-foreground">
-		A selection of my public repositories.
-	</p>
+<div class="min-h-screen p-4 md:p-8 font-mono">
+	<div class="mx-auto max-w-7xl">
+		<div class="mb-8 flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-end md:justify-between">
+			<div>
+				<h1 class="flex items-center text-2xl font-bold tracking-tight md:text-3xl">
+					<Terminal class="mr-3 h-8 w-8 text-primary" />
+					Container Registry
+				</h1>
+				<p class="mt-2 text-muted-foreground">
+					> Indexing public repositories from <span class="text-foreground">github.com/MathDesigns</span>...
+				</p>
+			</div>
+            
+            {#if !isLoading && !error}
+                <div class="flex gap-4 text-xs text-muted-foreground">
+                    <div>
+                        <span class="block font-bold text-foreground">{allProjects.length}</span>
+                        IMAGES
+                    </div>
+                    <div>
+                        <span class="block font-bold text-green-500">{allProjects.filter(p => p.status === 'Completed' || p.status === 'In Progress').length}</span>
+                        ACTIVE
+                    </div>
+                    <div>
+                        <span class="block font-bold text-red-500">{allProjects.filter(p => p.status === 'Archived').length}</span>
+                        STOPPED
+                    </div>
+                </div>
+            {/if}
+		</div>
 
-	{#if isLoading}
-		<div class="flex flex-col items-center justify-center text-center py-20">
-			<Loader2 class="h-12 w-12 animate-spin text-primary mb-4" />
-			<p class="text-muted-foreground">Fetching projects & cat GIFs 🐱</p>
+		<div class="mb-8 rounded-sm border border-border bg-card/30 p-2">
+			<div class="flex items-center gap-2 px-2">
+				<span class="text-green-500">root@registry:~#</span>
+				<span class="text-primary">kubectl get projects</span>
+				<span class="text-muted-foreground">--filter</span>
+			</div>
+            
+			<div class="mt-3 flex flex-wrap gap-2 border-t border-border/50 pt-3">
+				{#each availableFilters as filterName}
+					<button
+						class="group relative px-3 py-1 text-xs font-medium transition-all hover:text-primary
+                               {currentFilter === filterName ? 'text-primary' : 'text-muted-foreground'}"
+						onclick={() => (currentFilter = filterName)}
+					>
+                        {#if currentFilter === filterName}
+                            <span class="absolute inset-0 bg-primary/10 border border-primary/20 rounded-sm"></span>
+                        {/if}
+						<span class="relative z-10">{filterName}</span>
+					</button>
+				{/each}
+			</div>
 		</div>
-	{:else if error}
-		<div class="text-center py-20">
-			<p class="text-destructive text-lg mb-2">Oops! Something went wrong.</p>
-			<p class="text-muted-foreground mb-4">{error}</p>
-			<Button onclick={fetchProjects} variant="outline">
-				Try Again
-			</Button>
-		</div>
-	{:else}
-		<div class="mb-10 flex flex-wrap justify-center items-center gap-2 px-2">
-			<p class="mr-2 flex items-center text-sm text-muted-foreground shrink-0">
-				<Filter class="mr-1.5 h-4 w-4" />
-				Filter:
-			</p>
-			{#each availableFilters as filterName (filterName)}
-				<Button
-					variant={currentFilter === filterName ? 'secondary' : 'ghost'}
-					size="sm"
-					class="text-xs h-8 px-3 rounded-full transition-all duration-200 ease-in-out
-                           {currentFilter === filterName ? 'shadow-md' : 'hover:bg-accent/50'}"
-					onclick={() => (currentFilter = filterName)}
-				>
-					{filterName}
+
+		{#if isLoading}
+			<div class="flex h-64 flex-col items-center justify-center gap-4 rounded-sm border border-dashed border-border/50 bg-muted/10">
+				<Loader2 class="h-8 w-8 animate-spin text-primary" />
+				<div class="text-sm text-muted-foreground animate-pulse">
+					> Pulling container images...
+				</div>
+			</div>
+		{:else if error}
+			<div class="flex h-64 flex-col items-center justify-center gap-4 rounded-sm border border-red-900/50 bg-red-900/10 p-8 text-center">
+				<AlertCircle class="h-10 w-10 text-red-500" />
+				<h3 class="text-lg font-bold text-red-500">Connection Refused</h3>
+				<p class="text-sm text-red-400">{error}</p>
+				<Button onclick={fetchProjects} variant="outline" class="border-red-500/50 hover:bg-red-900/20 text-red-400">
+					Retry Connection
 				</Button>
-			{/each}
-		</div>
-
-		{#if filteredProjects.length > 0}
-			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+			</div>
+		{:else if filteredProjects.length > 0}
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 				{#each filteredProjects as project, i (project.id)}
 					<div
-						class="animate-initial-scale-down transition-default"
-						use:animateOnScroll={{ threshold: 0.1, rootMargin: '0px 0px -50px 0px', once: true }}
-						style="transition-delay: {i * 100}ms;"
+						class="animate-initial-scale-down is-visible"
+						use:animateOnScroll={{ threshold: 0.1, once: true }}
+						style="transition-delay: {i * 50}ms;"
 					>
 						<ProjectCard {project} />
 					</div>
 				{/each}
 			</div>
 		{:else}
-			<p class="mt-12 text-center text-muted-foreground">
-				No projects match the filter "{currentFilter}". Try another one or select "All".
-			</p>
+			<div class="flex h-64 flex-col items-center justify-center text-muted-foreground">
+				<Search class="mb-4 h-10 w-10 opacity-20" />
+				<p>> No matching containers found for query "{currentFilter}"</p>
+			</div>
 		{/if}
-	{/if}
+	</div>
 </div>

@@ -1,53 +1,173 @@
 <script lang="ts">
-	import Typewriter from '$lib/components/Typewriter.svelte';
+	import { onMount } from 'svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { ArrowDown, CodeXml, Sparkles } from '@lucide/svelte';
+	import { Cpu, Server, Terminal, ExternalLink } from '@lucide/svelte';
+	import { fade, fly } from 'svelte/transition';
 	import { animateOnScroll } from '$lib/actions/animateOnScroll';
 
-	const typewriterTexts = [
-		"Fullstack",
-		"Junior",
-		"Java",
-		"Svelte"
-	];
+	// Boot sequence state
+	let bootLines = $state<{ text: string; type: 'cmd' | 'out' | 'success' }[]>([]);
+	let showContent = $state(false);
+
+	onMount(async () => {
+		const sequence = [
+			{ text: 'initializing core_systems...', delay: 200, type: 'cmd' },
+			{ text: 'loading kernel modules... [OK]', delay: 400, type: 'success' },
+			{ text: 'mounting user_profile... [OK]', delay: 600, type: 'success' },
+			{ text: './greet_visitor.sh --verbose', delay: 1000, type: 'cmd' }
+		];
+
+		for (const step of sequence) {
+			await new Promise((r) => setTimeout(r, step.delay));
+			bootLines = [...bootLines, { text: step.text, type: step.type as any }];
+		}
+
+		await new Promise((r) => setTimeout(r, 500));
+		showContent = true;
+	});
 </script>
 
 <svelte:head>
-	<title>MathDesigns | Junior Developer Portfolio</title>
-	<meta name="description" content="Welcome to the portfolio of MathDesigns, a passionate junior web developer specializing in Svelte and modern web technologies." />
+	<title>MathDesigns | System Online</title>
+	<meta
+		name="description"
+		content="MathDesigns - Fullstack Junior Developer & Infrastructure Enthusiast. Exploring Java, Svelte, and DevOps."
+	/>
 </svelte:head>
 
 <section
-	id="hero"
-	class="relative flex flex-col items-center justify-center min-h-[calc(100vh-20rem)] text-center px-4 sm:px-6 lg:px-8 overflow-hidden"
-	style="--hero-bg-pattern: url('data:image/svg+xml,%3Csvg width=\'52\' height=\'26\' viewBox=\'0 0 52 26\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6zM26 26c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6zM39 0c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6h-2c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zM52 13c0 2.21-1.79 4-4 4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
+	class="container mx-auto flex min-h-[calc(100vh-80px)] flex-col items-center justify-center px-4 py-12 font-mono"
 >
-	<div class="absolute inset-0 -z-10 opacity-10 dark:opacity-5">
-		<div class="absolute inset-0 bg-(--hero-bg-pattern)"></div>
+	<div
+		class="bg-card border-border animate-initial-hidden is-visible w-full max-w-3xl overflow-hidden rounded-sm border shadow-2xl"
+		use:animateOnScroll={{ threshold: 0.1, once: true }}
+	>
+		<div class="bg-muted/50 border-border flex items-center gap-2 border-b p-2">
+			<div class="ml-2 flex gap-1.5">
+				<div class="h-3 w-3 rounded-full bg-red-500/50"></div>
+				<div class="h-3 w-3 rounded-full bg-yellow-500/50"></div>
+				<div class="h-3 w-3 rounded-full bg-green-500/50"></div>
+			</div>
+			<div class="text-muted-foreground flex-1 text-center text-xs">math@mathdesigns:~</div>
+		</div>
+
+		<div
+			class="bg-background/50 flex min-h-[450px] flex-col p-6 text-sm md:text-base"
+		>
+			{#each bootLines as line}
+				<div class="mb-1">
+					{#if line.type === 'cmd'}
+						<span class="mr-2 text-green-500">➜</span>
+						<span class="text-foreground">{line.text}</span>
+					{:else if line.type === 'success'}
+						<span class="text-muted-foreground/60 text-xs uppercase tracking-widest"
+							>{line.text}</span
+						>
+					{/if}
+				</div>
+			{/each}
+
+			{#if showContent}
+				<div class="mt-6" in:fly={{ y: 10, duration: 800 }}>
+					<h1 class="text-primary mb-2 text-4xl font-bold tracking-tighter md:text-6xl">
+						Hi, I'm Math<span class="animate-pulse text-green-500">_</span>
+					</h1>
+					<div class="text-muted-foreground mb-8 max-w-xl space-y-2 text-lg">
+						<p>> Fullstack Junior Developer</p>
+						<p>> Transforming ideas into scalable infrastructure.</p>
+					</div>
+
+					<div class="flex flex-wrap gap-4">
+						<Button
+							href="/projects"
+							class="bg-primary/10 text-primary hover:bg-primary hover:text-background border-primary border transition-all duration-300"
+						>
+							[ EXEC_PROJECTS ]
+						</Button>
+						<Button
+							href="/contact"
+							variant="outline"
+							class="border-dashed hover:bg-white/5"
+						>
+							[ OPEN_CHANNEL ]
+						</Button>
+					</div>
+				</div>
+			{/if}
+
+			{#if showContent}
+				<div class="mt-auto pt-8">
+					<span class="mr-2 text-green-500">➜</span>
+					<span class="bg-primary/50 inline-block h-5 w-2.5 align-middle animate-pulse"></span>
+				</div>
+			{/if}
+		</div>
 	</div>
 
-	<div 
-        class="max-w-3xl animate-initial-hidden transition-default" 
-        use:animateOnScroll={{ threshold: 0.1, once: true }}
-    >
-		<h1 class="flex flex-col sm:flex-row items-center justify-center text-5xl font-bold tracking-tight sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl">
-			<span class="mr-2 sm:mr-3">Hi, I'm Math</span>
-		</h1>
-        <div class="mt-1 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-primary">
-            <Typewriter texts={typewriterTexts} typingSpeed={180} deletingSpeed={50} delayBetweenTexts={1000} />
-        </div>
+	{#if showContent}
+		<div
+			class="mt-16 grid w-full max-w-4xl grid-cols-1 gap-4 md:grid-cols-3"
+			in:fade={{ duration: 1000, delay: 400 }}
+		>
+			<div
+				class="bg-card/30 border-border hover:border-primary/50 group rounded-sm border p-4 transition-colors"
+			>
+				<div class="text-primary mb-3 flex items-center gap-2">
+					<Cpu class="h-5 w-5" />
+					<h3 class="font-bold tracking-wider">KERNEL</h3>
+				</div>
+				<ul class="text-muted-foreground space-y-1.5 text-sm">
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Java (Core)
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Spring Boot
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Algorithms
+					</li>
+				</ul>
+			</div>
 
-		<p class="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl md:text-2xl max-w-xl mx-auto">
-			A passionate Junior Developer, transforming ideas into engaging web experiences.
-		</p>
+			<div
+				class="bg-card/30 border-border hover:border-primary/50 group rounded-sm border p-4 transition-colors"
+			>
+				<div class="text-primary mb-3 flex items-center gap-2">
+					<Terminal class="h-5 w-5" />
+					<h3 class="font-bold tracking-wider">INTERFACE</h3>
+				</div>
+				<ul class="text-muted-foreground space-y-1.5 text-sm">
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Svelte 5 / SvelteKit
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>TailwindCSS v4
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>TypeScript
+					</li>
+				</ul>
+			</div>
 
-		<div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-5 sm:gap-y-0 sm:gap-x-6">
-    <Button href="/projects" size="lg" class="font-semibold w-full sm:w-auto">
-        <CodeXml class="mr-2 h-5 w-5"/> View My Work
-    </Button>
-    <Button href="/contact" variant="outline" size="lg" class="font-semibold w-full sm:w-auto">
-        Get In Touch
-    </Button>
-</div>
-	</div>
+			<div
+				class="bg-card/30 border-border hover:border-primary/50 group rounded-sm border p-4 transition-colors"
+			>
+				<div class="text-primary mb-3 flex items-center gap-2">
+					<Server class="h-5 w-5" />
+					<h3 class="font-bold tracking-wider">DEPLOY</h3>
+				</div>
+				<ul class="text-muted-foreground space-y-1.5 text-sm">
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Docker / Compose
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Linux (Arch/Debian)
+					</li>
+					<li class="group-hover:text-foreground transition-colors">
+						<span class="text-primary/50 mr-1">></span>Git / CI/CD
+					</li>
+				</ul>
+			</div>
+		</div>
+	{/if}
 </section>
