@@ -1,12 +1,12 @@
 <script lang="ts">
-	import activeTheme, { cycleTheme, themes, setTheme, type Theme } from '$lib/stores/themeStore';
+	import activeTheme, { cycleTheme, themes, setTheme, type Theme} from '$lib/stores/themeStore';
 	import { Button } from '$lib/components/ui/button';
 	import { 
         Sun, Moon, MonitorSmartphone, Trees, Layers, Terminal, 
         Settings2, Gamepad2, DraftingCompass, CircleDot, Palette, 
-		Cat
+		Cat, type Icon as IconType
 
-    } from 'lucide-svelte';
+    } from '@lucide/svelte';
 	import { onMount, type ComponentType } from 'svelte';
 
 	let currentTheme: Theme | undefined = $state();
@@ -14,7 +14,7 @@
 		currentTheme = value;
 	});
 
-	const themeDetails: Record<Theme, { icon: ComponentType; name: string }> = {
+	const themeDetails: Record<Theme, { icon: typeof IconType; name: string }> = {
         pureblack: { icon: Moon, name: 'Pure Black' }, 
         classiclight: { icon: Sun, name: 'Classic Light' }, 
         catpuccin: { icon: Cat, name: 'Catppuccin' }, 
@@ -33,7 +33,7 @@
         mounted = true;
     });
 
-	function getNextThemeDetails(): { icon: ComponentType; name: string } {
+	function getNextThemeDetails(): { icon: typeof IconType; name: string } {
         const currentIndex = currentTheme ? themes.indexOf(currentTheme) : 0;
         const nextIndex = (currentIndex + 1) % themes.length;
 		return themeDetails[themes[nextIndex] || themes[0]];
@@ -44,7 +44,7 @@
 	<Button
 		variant="outline" 
 		size="icon"
-		on:click={cycleTheme}
+		onclick={cycleTheme}
 		aria-label={`Switch to ${getNextThemeDetails()?.name || 'next'} theme`}
 		class="relative w-10 h-10 rounded-full p-0 text-foreground hover:bg-accent" 
         >

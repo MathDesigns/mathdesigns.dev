@@ -67,7 +67,6 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        // Access fontFamily properties via the defaultTheme object
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
         mono: ["Share Tech Mono", ...defaultTheme.fontFamily.mono],
       },

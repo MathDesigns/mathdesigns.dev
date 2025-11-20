@@ -5,7 +5,7 @@
 	import { browser } from '$app/environment';
 	import { cmd } from '$lib/stores/commandPaletteStore';
 	
-	import { Search, CornerDownLeft } from 'lucide-svelte';
+	import { Search, CornerDownLeft } from '@lucide/svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	
 	let storeOpen = $state(false);
@@ -72,10 +72,10 @@
 	});
 
 	function handleOpenChange(openStatus: boolean) {
-		if (!openStatus && storeOpen) { 
-			cmd.close();
-		}
-	}
+        if (!openStatus) { 
+            cmd.close();
+        }
+    }
 
     function scrollToSelected() {
         if (!commandListElement || !filteredCommands[selectedIndex]) return;
@@ -94,8 +94,7 @@
 
 <Dialog.Root 
     bind:open={storeOpen} 
-    onOpenChange={handleOpenChange}
-    preventScroll={false} >
+    onOpenChange={handleOpenChange}>
 	<Dialog.Content class="p-0 flex flex-col max-h-[70vh]" aria-label="Command Palette">
         <div class="flex items-center p-3 border-b border-border shrink-0">
 			<Search class="w-5 h-5 text-muted-foreground mr-3 shrink-0" />
@@ -108,7 +107,7 @@
 				oninput={(e) => cmd.setSearchTerm(e.currentTarget.value)}
 			/>
 		</div>
-        <div bind:this={commandListElement} class="overflow-y-auto p-2 flex-grow">
+        <div bind:this={commandListElement} class="overflow-y-auto p-2 grow">
             {#if filteredCommands.length > 0}
 				{#each filteredCommands as command, i (command.id)}
 					<button
@@ -123,7 +122,7 @@
 							{#if command.icon}
 								<command.icon class="w-4 h-4 mr-2.5 text-muted-foreground {selectedIndex === i ? 'text-primary-foreground': ''}" />
 							{/if}
-							<span class="flex-grow {selectedIndex === i ? 'text-primary-foreground': 'text-foreground'}">{command.label}</span>
+							<span class="grow {selectedIndex === i ? 'text-primary-foreground': 'text-foreground'}">{command.label}</span>
 						</div>
                     </button>
                 {/each}
