@@ -1,25 +1,20 @@
 <script lang="ts">
 	import { Dialog as DialogPrimitive } from "bits-ui";
-	import { fade } from "svelte/transition";
-	import { cn } from "$lib/utils"; //
+	import { cn } from "$lib/utils.js";
 
-	type Props = DialogPrimitive.OverlayProps;
-	let props: Props = $$props;
-	let  className: Props["class"] = undefined;
-	export { className as class }; 
-
-	export let transition: DialogPrimitive.Transition = fade; // Active
-	export let transitionConfig: DialogPrimitive.TransitionConfig = { // Active
-		duration: 200 // Slightly faster fade for overlay
-	};
+	let {
+		ref = $bindable(null),
+		class: className,
+		...restProps
+	}: DialogPrimitive.OverlayProps = $props();
 </script>
 
 <DialogPrimitive.Overlay
-	{transition}
-	{transitionConfig}
+	bind:ref
+	data-slot="dialog-overlay"
 	class={cn(
-		"fixed inset-0 z-50 bg-black/60 backdrop-blur-sm", // Standard overlay style with z-50
+		"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
 		className
 	)}
-	{...props}
+	{...restProps}
 />

@@ -1,49 +1,43 @@
 <script lang="ts">
 	import { Dialog as DialogPrimitive } from "bits-ui";
-	import { flyAndScale } from "$lib/utils"; // Re-enable for transition
-	import { cn } from "$lib/utils"; //
-	import DialogOverlay from "./dialog-overlay.svelte";
-	import DialogPortal from "./dialog-portal.svelte";
-	import X from "lucide-svelte/icons/x";
+	import XIcon from "@lucide/svelte/icons/x";
+	import type { Snippet } from "svelte";
+	import * as Dialog from "./index.js";
+	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
 
-	type Props = DialogPrimitive.ContentProps;
-	let classNameFromProp: Props["class"] = undefined;
-	export { classNameFromProp as class }; // Allow class prop from parent
-
-	export let transition: DialogPrimitive.Transition = flyAndScale; // Re-enable transition
-	export let transitionConfig: DialogPrimitive.TransitionConfig = { // Re-enable transition config
-		duration: 250, // Slightly adjusted duration
-		y: -30,        // Fly from a bit higher
-		start: 0.96,   // Start slightly smaller
-		opacity: 0     // Ensure it fades in
-	};
+	let {
+		ref = $bindable(null),
+		class: className,
+		portalProps,
+		children,
+		showCloseButton = true,
+		...restProps
+	}: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
+		portalProps?: DialogPrimitive.PortalProps;
+		children: Snippet;
+		showCloseButton?: boolean;
+	} = $props();
 </script>
 
-<DialogPortal>
-	<DialogOverlay />
+<Dialog.Portal {...portalProps}>
+	<Dialog.Overlay />
 	<DialogPrimitive.Content
-		{transition}
-		{transitionConfig}
+		bind:ref
+		data-slot="dialog-content"
 		class={cn(
-			"fixed left-[50%] top-[40%] md:top-[50%]",  // Position: slight offset from top on mobile
-			"translate-x-[-50%] translate-y-[-50%]",    // Centering
-			"z-[51]", // Content on top of overlay (z-50)
-			"w-[95vw] sm:w-[90vw] max-w-xl",              // Sizing, responsive
-			"bg-background border border-border",        // Theme-aware background and border
-			"shadow-2xl rounded-lg",                  // Shadow and rounding
-			// "p-0" will be applied from CommandPalette.svelte via classNameFromProp
-			// "flex flex-col" etc. will also be applied from CommandPalette.svelte
-			"focus-visible:ring-0 focus-visible:outline-none", // Remove default focus ring if you handle it internally
-			classNameFromProp // Classes passed from CommandPalette.svelte
+			"bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed left-[50%] top-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
+			className
 		)}
-		{...$$restProps}
-		>
-		<slot />
-		<DialogPrimitive.Close
-			class="absolute right-3 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-		>
-			<X class="h-4 w-4" />
-			<span class="sr-only">Close</span>
-		</DialogPrimitive.Close>
+		{...restProps}
+	>
+		{@render children?.()}
+		{#if showCloseButton}
+			<DialogPrimitive.Close
+				class="ring-offset-background focus:ring-ring rounded-xs focus:outline-hidden absolute end-4 top-4 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0"
+			>
+				<XIcon />
+				<span class="sr-only">Close</span>
+			</DialogPrimitive.Close>
+		{/if}
 	</DialogPrimitive.Content>
-</DialogPortal>
+</Dialog.Portal>

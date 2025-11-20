@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import { Textarea } from '$lib/components/ui/textarea';
 	import { Button } from '$lib/components/ui/button';
-	import { Mail, Send, Linkedin, Github, MapPin } from 'lucide-svelte';
+	import { Mail, Send, Linkedin, Github, MapPin } from '@lucide/svelte';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
@@ -14,10 +16,10 @@
 	const yourGitHub = 'https://github.com/MathDesigns';
 	const yourLocation = 'Wallonia, Belgium';
 
-	let formStatus: 'idle' | 'submitting' | 'success' | 'error' = 'idle';
-	let formMessage = '';
+	let formStatus: 'idle' | 'submitting' | 'success' | 'error' = $state('idle');
+	let formMessage = $state('');
 
-	async function handleSubmit(event: SubmitEvent) {
+	async function handleSubmit(event: Event) {
 		formStatus = 'submitting';
 		formMessage = '';
 		const form = event.target as HTMLFormElement;
@@ -133,7 +135,7 @@
 				action={FORM_ENDPOINT}
 				method="POST"
 				class="space-y-6"
-				on:submit|preventDefault={handleSubmit}
+				onsubmit={preventDefault(handleSubmit)}
 			>
 				<div>
 					<Label for="name" class="text-sm font-medium">Full Name</Label>

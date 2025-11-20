@@ -1,38 +1,35 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
-	import { DoorOpen, Volume2, VolumeX, AlertTriangle } from 'lucide-svelte';
+	import { DoorOpen, Volume2, VolumeX, AlertTriangle } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 
-	const status = $page.status;
-	const error = $page.error;
+	const status = page.status;
+	const error = page.error;
 
-	// Backrooms-specific lore for errors
 	let errorTitle = status === 404 ? 'Level 404: The Missing Sector' : 'Entity Contact';
-	let errorDescription = status === 404 
+	let errorDescription = $state(status === 404 
         ? "You've noclipped into a sector that hasn't rendered yet. The geometry here is unstable." 
-        : "An unknown entity has corrupted the data stream.";
+        : "An unknown entity has corrupted the data stream.");
 
     if (error?.message) {
         errorDescription = error.message;
     }
 
-	// Audio Logic (No Autoplay)
-	let audioElement: HTMLAudioElement;
-	let isMuted = true;
+	let audioElement: HTMLAudioElement | undefined = $state();
+	let isMuted = $state(true);
 
 	function toggleMute() {
 		if (!audioElement) return;
 		isMuted = !isMuted;
 		audioElement.muted = isMuted;
 		if (!isMuted) {
-			audioElement.volume = 0.15; // Low hum volume
+			audioElement.volume = 0.15;
 			audioElement.play().catch(() => { isMuted = true; });
 		}
 	}
     
-    // Camcorder timestamp
-    let timestamp = '';
+    let timestamp = $state('');
     onMount(() => {
         const interval = setInterval(() => {
             const now = new Date();
@@ -47,7 +44,7 @@
     <meta name="theme-color" content="#d4cd92">
 </svelte:head>
 
-<div class="fixed inset-0 z-[100] w-screen h-screen bg-[#d4cd92] overflow-hidden font-mono text-stone-800 selection:bg-black selection:text-[#d4cd92]">
+<div class="fixed inset-0 z-100 w-screen h-screen bg-[#d4cd92] overflow-hidden font-mono text-stone-800 selection:bg-black selection:text-[#d4cd92]">
     
     <div class="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none wallpaper-pattern"></div>
     
@@ -55,7 +52,7 @@
 
     <div class="absolute inset-0 bg-amber-100/20 animate-flicker pointer-events-none mix-blend-overlay"></div>
 
-    <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-[5] bg-[length:100%_4px,6px_100%]"></div>
+    <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-5 bg-size-[100%_4px,6px_100%]"></div>
 
     <div class="relative z-10 flex flex-col items-center justify-center w-full h-full p-6 text-center">
         
@@ -84,7 +81,7 @@
                     <DoorOpen class="mr-2 h-4 w-4" /> NOCLIP HOME
                 </Button>
                 
-                <Button on:click={toggleMute} variant="outline" class="border-stone-600 text-stone-800 hover:bg-stone-700/10 bg-transparent">
+                <Button onclick={toggleMute} variant="outline" class="border-stone-600 text-stone-800 hover:bg-stone-700/10 bg-transparent">
                     {#if isMuted}
                         <VolumeX class="h-4 w-4 mr-2" /> Enable Audio
                     {:else}
@@ -107,8 +104,8 @@
     </div>
 
     <div class="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 border border-stone-900/20 pointer-events-none z-0 opacity-50">
-        <div class="absolute top-1/2 left-0 w-full h-[1px] bg-stone-900/20"></div>
-        <div class="absolute left-1/2 top-0 h-full w-[1px] bg-stone-900/20"></div>
+        <div class="absolute top-1/2 left-0 w-full h-px bg-stone-900/20"></div>
+        <div class="absolute left-1/2 top-0 h-full w-px bg-stone-900/20"></div>
     </div>
 
     <audio 

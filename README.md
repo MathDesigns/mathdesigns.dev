@@ -6,7 +6,7 @@ The source code of my personal wesbite
 - SvelteKit
 - TailwindCSS
 - Shadcn-svelte
-- Lucide-svelte
+- @lucide/svelte
 
 ## Authors
 
