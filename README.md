@@ -1,20 +1,51 @@
-# mathdesigns.dev 🚀
+# 🌐 MathDesigns.dev
 
-The source code of my personal wesbite
+> The personal portfolio and digital playground of **Mathéo S.**
+> Built to showcase high-performance web development with Svelte and TypeScript.
 
-## Tech Stack
-- SvelteKit
-- TailwindCSS
-- Shadcn-svelte
-- @lucide/svelte
+[![Live URL](https://img.shields.io/badge/Live_Site-mathdesigns.dev-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)](https://mathdesigns.dev)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
 
-## Authors
+---
 
-- [@MathDesigns](https://github.com/MathDesigns)
+## 🛠️ Tech Stack
 
+This project is built with a focus on **performance**, **accessibility**, and **type safety**.
 
-## License
+| Category | Technology | Usage |
+| :--- | :--- | :--- |
+| **Framework** | ![Svelte](https://img.shields.io/badge/Svelte-FF3E00?logo=svelte&logoColor=white) | Core component logic and reactivity. |
+| **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white) | Strict typing for reliability. |
+| **Styling** | ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white) | Utility-first responsive design. |
+| **Bundler** | ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) | Blazing fast HMR and build tooling. |
 
-[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/license/gpl-3-0)
+---
 
-To use my project, which is licensed under the GPL v3, simply download the code from the repository. You are free to modify, distribute, and use it for personal or commercial purposes, as long as you adhere to the terms of the GPL v3 license. This means that if you make any modifications or distribute the project (either as-is or with changes), you must also release the source code and include the same license. Additionally, you must include a copy of the license when redistributing the project.
+## ✨ Features
+
+* **🚀 High Performance:** Zero layout shift and optimized asset loading.
+* **📱 Fully Responsive:** Mobile-first design (Tailwind)
+* **🎨 Minimalist UI:** Clean aesthetic focusing on content and projects.
+* **🌑 Dark Mode:** System-preference aware color themes.
+* **🪺 Easter Eggs:** We love them.
+
+---
+
+## ⚡ Running Locally
+
+Want to see how it works under the hood? Clone the repo and start the dev server.
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/MathDesigns/mathdesigns.dev.git
+cd mathdesigns.dev
+```
+### 2. Install dependencies using npm
+```bash
+npm install
+```
+### 3. Start the development server
+```bash
+npm run dev
+```
+Visit http://localhost:5173 to view the site.
