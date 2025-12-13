@@ -40,7 +40,7 @@
 				href={item.href}
 				onclick={() => setActive(item.href)}
 				class={cn(
-					'relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors',
+					'relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
 					activeSection === item.href
 						? 'bg-primary/20 text-primary'
 						: 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
@@ -52,7 +52,7 @@
 						style="view-transition-name: nav-active"
 					></span>
 				{/if}
-				<item.icon class="h-4 w-4" />
+				<item.icon class="h-4 w-4" aria-hidden="true" />
 				<span>{item.label}</span>
 			</a>
 		{/each}
@@ -61,13 +61,13 @@
 		
 		<button
 			onclick={toggleTheme}
-			class="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-muted-foreground transition-colors hover:bg-primary hover:text-white"
+			class="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-muted-foreground transition-colors hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 			aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
 		>
 			{#if isDark}
-				<Moon class="h-4 w-4" />
+				<Moon class="h-4 w-4" aria-hidden="true" />
 			{:else}
-				<Sun class="h-4 w-4" />
+				<Sun class="h-4 w-4" aria-hidden="true" />
 			{/if}
 		</button>
 	</nav>
@@ -81,11 +81,11 @@
 					href={item.href}
 					onclick={() => setActive(item.href)}
 					class={cn(
-						'flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-1 transition-all',
+						'flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
 						activeSection === item.href ? 'text-primary bg-white/5' : 'text-muted-foreground'
 					)}
 				>
-					<item.icon class="h-5 w-5" />
+					<item.icon class="h-5 w-5" aria-hidden="true" />
 					<span class="text-[9px] font-medium">{item.label}</span>
 				</a>
 			{/each}
@@ -95,13 +95,13 @@
 
 		<button
 			onclick={toggleTheme}
-			class="flex flex-col items-center justify-center gap-1 rounded-xl bg-white/5 px-3 py-1 text-muted-foreground transition-colors hover:bg-white/10 active:scale-95"
+			class="flex flex-col items-center justify-center gap-1 rounded-xl bg-white/5 px-3 py-1 text-muted-foreground transition-colors hover:bg-white/10 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 			aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
 		>
 			{#if isDark}
-				<Moon class="h-5 w-5" />
+				<Moon class="h-5 w-5" aria-hidden="true" />
 			{:else}
-				<Sun class="h-5 w-5" />
+				<Sun class="h-5 w-5" aria-hidden="true" />
 			{/if}
 			<span class="text-[9px] font-medium">Theme</span>
 		</button>
