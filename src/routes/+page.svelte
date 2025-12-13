@@ -133,8 +133,8 @@
 			</Button>
 		</div>
 
-		<div class="mt-24 pt-8 border-t border-border w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground gap-4">
+		<footer class="mt-24 pt-8 border-t border-border w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground gap-4">
 			<p>&copy; {new Date().getFullYear()} MathDesigns.</p>
-		</div>
+		</footer>
 	</div>
 </section>

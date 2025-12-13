@@ -41,7 +41,7 @@
 	{#each projects as project}
 		<a 
 			href={project.href}
-			class="group relative overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/40 p-6 md:p-8 transition-all duration-500 hover:border-white/10 hover:shadow-2xl hover:shadow-black/50 {project.class}"
+			class="group relative overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/40 p-6 md:p-8 transition-all duration-500 hover:border-white/10 hover:shadow-2xl hover:shadow-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background {project.class}"
 		>
 			<div class="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" 
 				 style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');">
@@ -57,11 +57,11 @@
 				<div>
 					<div class="flex items-start justify-between mb-4">
 						<div class="p-2 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm group-hover:bg-white/10 transition-colors">
-							<Github class="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+							<Github class="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
 						</div>
 						
 						<div class="rounded-full p-2 text-muted-foreground opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 bg-white/5">
-							<ExternalLink class="h-4 w-4" />
+							<ExternalLink class="h-4 w-4" aria-hidden="true" />
 						</div>
 					</div>
 					

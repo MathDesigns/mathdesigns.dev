@@ -50,7 +50,7 @@
     
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.6)_120%)] pointer-events-none"></div>
 
-    <div class="absolute inset-0 bg-amber-100/20 animate-flicker pointer-events-none mix-blend-overlay"></div>
+    <div class="absolute inset-0 bg-amber-100/20 animate-flicker motion-reduce:animate-none pointer-events-none mix-blend-overlay"></div>
 
     <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-5 bg-size-[100%_4px,6px_100%]"></div>
 
@@ -60,7 +60,7 @@
             <h1 class="text-9xl md:text-[12rem] font-bold tracking-tighter opacity-90 text-[#6b654b] mix-blend-difference select-none glitch-text" data-text={status}>
                 {status}
             </h1>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-amber-900/20 text-sm tracking-[1em] uppercase w-full animate-pulse">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-amber-900/20 text-sm tracking-[1em] uppercase w-full animate-pulse motion-reduce:animate-none">
                 Reality Failure
             </div>
         </div>
@@ -94,7 +94,7 @@
 
     <div class="absolute top-0 left-0 w-full p-4 md:p-8 flex justify-between text-stone-900/70 z-20 pointer-events-none text-xs md:text-sm font-bold tracking-widest">
         <div class="flex flex-col gap-1">
-            <span class="animate-pulse text-red-700">● REC</span>
+            <span class="animate-pulse motion-reduce:animate-none text-red-700">● REC</span>
             <span>TAPE_004</span>
         </div>
         <div class="flex flex-col items-end gap-1">
@@ -157,33 +157,36 @@
         height: 100%;
         background: #d4cd92; /* Matches background to hide main text */
     }
-    .glitch-text::before {
-        left: 2px;
-        text-shadow: -1px 0 #ff00c1;
-        clip-path: inset(44% 0 61% 0);
-        animation: glitch-anim 2.5s infinite linear alternate-reverse;
-    }
-    .glitch-text::after {
-        left: -2px;
-        text-shadow: -1px 0 #00fff9;
-        clip-path: inset(20% 0 20% 0); /* Static clip for stability */
-        animation: glitch-anim2 3s infinite linear alternate-reverse;
-    }
 
-    @keyframes glitch-anim {
-        0% { clip-path: inset(20% 0 80% 0); }
-        20% { clip-path: inset(60% 0 10% 0); }
-        40% { clip-path: inset(40% 0 50% 0); }
-        60% { clip-path: inset(80% 0 5% 0); }
-        80% { clip-path: inset(10% 0 60% 0); }
-        100% { clip-path: inset(30% 0 30% 0); }
-    }
-    @keyframes glitch-anim2 {
-        0% { clip-path: inset(10% 0 60% 0); }
-        20% { clip-path: inset(30% 0 20% 0); }
-        40% { clip-path: inset(70% 0 10% 0); }
-        60% { clip-path: inset(20% 0 50% 0); }
-        80% { clip-path: inset(50% 0 30% 0); }
-        100% { clip-path: inset(0% 0 80% 0); }
+    @media (prefers-reduced-motion: no-preference) {
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip-path: inset(44% 0 61% 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip-path: inset(20% 0 20% 0); /* Static clip for stability */
+            animation: glitch-anim2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 60% 0); }
+            100% { clip-path: inset(30% 0 30% 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(0% 0 80% 0); }
+        }
     }
 </style>
