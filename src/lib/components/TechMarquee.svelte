@@ -27,6 +27,10 @@
 					<img 
 						src="https://cdn.simpleicons.org/{tech.slug}" 
 						alt={tech.name}
+						width="48"
+						height="48"
+						loading="lazy"
+						decoding="async"
 						class="h-12 w-12 object-contain transition-all duration-300 filter grayscale opacity-40 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 group-hover/icon:scale-110"
 					/>
 					<span class="text-xs font-mono text-primary opacity-0 -translate-y-2 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:translate-y-0">
@@ -42,6 +46,10 @@
 					<img 
 						src="https://cdn.simpleicons.org/{tech.slug}" 
 						alt={tech.name}
+						width="48"
+						height="48"
+						loading="lazy"
+						decoding="async"
 						class="h-12 w-12 object-contain transition-all duration-300 filter grayscale opacity-40 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 group-hover/icon:scale-110"
 					/>
 					<span class="text-xs font-mono text-primary opacity-0 -translate-y-2 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:translate-y-0">

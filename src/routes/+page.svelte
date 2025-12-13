@@ -7,6 +7,7 @@
 
 <svelte:head>
 	<title>Mathéo S. | Fullstack Developer</title>
+	<link rel="preconnect" href="https://cdn.simpleicons.org" />
 </svelte:head>
 
 <section id="hero" class="relative flex min-h-dvh flex-col items-center justify-between overflow-hidden pt-20">
