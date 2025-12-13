@@ -62,6 +62,7 @@
 		<button
 			onclick={toggleTheme}
 			class="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-muted-foreground transition-colors hover:bg-primary hover:text-white"
+			aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
 		>
 			{#if isDark}
 				<Moon class="h-4 w-4" />
@@ -95,6 +96,7 @@
 		<button
 			onclick={toggleTheme}
 			class="flex flex-col items-center justify-center gap-1 rounded-xl bg-white/5 px-3 py-1 text-muted-foreground transition-colors hover:bg-white/10 active:scale-95"
+			aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
 		>
 			{#if isDark}
 				<Moon class="h-5 w-5" />
