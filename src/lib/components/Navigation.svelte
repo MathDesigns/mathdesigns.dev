@@ -86,7 +86,7 @@
 					)}
 				>
 					<item.icon class="h-5 w-5" aria-hidden="true" />
-					<span class="text-[9px] font-medium">{item.label}</span>
+					<span class="text-[10px] font-medium">{item.label}</span>
 				</a>
 			{/each}
 		</div>
@@ -103,7 +103,7 @@
 			{:else}
 				<Sun class="h-5 w-5" aria-hidden="true" />
 			{/if}
-			<span class="text-[9px] font-medium">Theme</span>
+			<span class="text-[10px] font-medium">Theme</span>
 		</button>
 	</nav>
 </div>
