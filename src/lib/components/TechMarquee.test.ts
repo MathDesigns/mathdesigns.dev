@@ -5,6 +5,6 @@ import TechMarquee from './TechMarquee.svelte';
 describe('TechMarquee', () => {
 	it('renders the marquee content', () => {
 		render(TechMarquee);
-		expect(screen.getAllByAltText('Svelte')[0]).toBeInTheDocument();
+		expect(screen.getAllByAltText('Svelte logo')[0]).toBeInTheDocument();
 	});
 });
