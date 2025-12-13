@@ -26,7 +26,7 @@
 				<div class="group/icon flex flex-col items-center justify-center gap-2">
 					<img 
 						src="https://cdn.simpleicons.org/{tech.slug}" 
-						alt={tech.name}
+						alt="{tech.name} logo"
 						width="48"
 						height="48"
 						loading="lazy"
@@ -45,7 +45,7 @@
 				<div class="group/icon flex flex-col items-center justify-center gap-2">
 					<img 
 						src="https://cdn.simpleicons.org/{tech.slug}" 
-						alt={tech.name}
+						alt="{tech.name} logo"
 						width="48"
 						height="48"
 						loading="lazy"
