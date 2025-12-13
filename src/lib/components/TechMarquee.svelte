@@ -21,7 +21,7 @@
 <div class="w-full overflow-hidden bg-background/50 border-y border-border/40 py-6 backdrop-blur-sm select-none">
 	<div class="flex overflow-hidden group mask-linear-fade py-4">
 		
-		<div class="flex min-w-full shrink-0 items-center justify-around gap-12 animate-marquee motion-reduce:animate-none px-12" aria-hidden="true">
+		<div class="flex min-w-full shrink-0 items-center justify-around gap-12 animate-marquee motion-reduce:animate-none px-12">
 			{#each techs as tech}
 				<div class="group/icon flex flex-col items-center justify-center gap-2">
 					<img 
