@@ -1,0 +1,113 @@
+
+> mathdesigns.dev@0.1.0 dev
+> vite dev --port 5173
+
+2:15:06 PM [vite] (client) Forced re-optimization of dependencies
+
+  VITE v7.2.2  ready in 1790 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload .jules/sentinel.md
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload AGENTS.md
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload README.md
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload components.json
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload docker-compose.yml
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload eslint.config.js
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload package.json
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/app.css
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/app.d.ts
+2:23:00 PM [vite] (client) page reload src/app.html
+2:23:00 PM [vite] (ssr) page reload src/app.html
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/TechMarquee.test.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/avatar/avatar-fallback.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/avatar/avatar-image.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/avatar/avatar.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/avatar/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/badge/badge.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/badge/index.ts
+2:23:00 PM [vite] (client) hmr update /src/routes/+error.svelte, /src/routes/+page.svelte, /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/button/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-action.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-content.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-description.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-footer.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-header.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card-title.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/card.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/card/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/checkbox/checkbox.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/checkbox/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-close.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-content.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-description.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-footer.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-header.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-overlay.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-title.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/dialog-trigger.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/dialog/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/input/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/input/input.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/label/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/label/label.svelte
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/textarea/index.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/textarea/textarea.svelte
+svelte config changed, restarting vite dev-server. changed file: /app/svelte.config.js
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload svelte.config.js
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload tailwind.config.ts
+2:23:00 PM [vite] changed tsconfig file detected: /app/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload tsconfig.json
+2:23:00 PM [vite] vite.config.ts changed, restarting server...
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload vitest-setup.ts
+2:23:00 PM [vite] (client) hmr update /src/app.css
+2:23:00 PM [vite] (ssr) page reload vitest.config.ts
+2:23:00 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+2:23:00 PM [vite] (client) hmr update /src/lib/components/ui/button/button.svelte, /src/routes/+error.svelte, /src/routes/+page.svelte, /src/app.css
+2:23:00 PM [vite] (ssr) page reload src/lib/components/ui/button/button.svelte
+2:23:01 PM [vite] server restarted.
