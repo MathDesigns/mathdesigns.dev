@@ -41,6 +41,8 @@
 	{#each projects as project}
 		<a 
 			href={project.href}
+			target={project.href.startsWith('http') ? "_blank" : undefined}
+			rel={project.href.startsWith('http') ? "noopener noreferrer" : undefined}
 			class="group relative overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/40 p-6 md:p-8 transition-all duration-500 hover:border-white/10 hover:shadow-2xl hover:shadow-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background {project.class}"
 		>
 			<div class="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" 

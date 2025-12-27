@@ -51,8 +51,19 @@
 		type = "button",
 		disabled,
 		children,
+		target = undefined,
+		rel = undefined,
 		...restProps
 	}: ButtonProps = $props();
+
+	// Automatically add noopener noreferrer for external links
+	let computedRel = $derived(
+		target === "_blank"
+			? rel
+				? `${rel} noopener noreferrer`
+				: "noopener noreferrer"
+			: rel
+	);
 </script>
 
 {#if href}
@@ -64,6 +75,8 @@
 		aria-disabled={disabled}
 		role={disabled ? "link" : undefined}
 		tabindex={disabled ? -1 : undefined}
+		{target}
+		rel={computedRel}
 		{...restProps}
 	>
 		{@render children?.()}
