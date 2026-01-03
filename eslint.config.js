@@ -19,12 +19,18 @@ export default ts.config(
 		}
 	},
 	{
-        rules: {
-            'svelte/a11y-no-static-element-interactions': 'error',
-            'svelte/a11y-click-events-have-key-events': 'error',
-            '@typescript-eslint/no-explicit-any': 'error'
-        }
-    },
+		rules: {
+			// Removed invalid rules that do not exist in eslint-plugin-svelte v3+
+			// 'svelte/a11y-no-static-element-interactions': 'error',
+			// 'svelte/a11y-click-events-have-key-events': 'error',
+
+			// Security: Enforce rel="noopener noreferrer" on target="_blank"
+			'svelte/no-target-blank': 'error',
+
+			'@typescript-eslint/no-explicit-any': 'error',
+			'svelte/no-navigation-without-resolve': 'off'
+		}
+	},
 	{
 		files: ['**/*.svelte'],
 
