@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: svelte-deploy
-    user: "1337"
+    user: '1337'
     environment:
       - NODE_ENV=production
       - TZ=Europe/Brussels

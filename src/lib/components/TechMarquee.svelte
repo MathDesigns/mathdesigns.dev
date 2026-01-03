@@ -18,41 +18,51 @@
 	];
 </script>
 
-<div class="w-full overflow-hidden bg-background/50 border-y border-border/40 py-6 backdrop-blur-sm select-none">
-	<div class="flex overflow-hidden group mask-linear-fade py-4">
-		
-		<div class="flex min-w-full shrink-0 items-center justify-around gap-12 animate-marquee motion-reduce:animate-none px-12" aria-hidden="true">
+<div
+	class="bg-background/50 border-border/40 w-full overflow-hidden border-y py-6 backdrop-blur-sm select-none"
+>
+	<div class="group mask-linear-fade flex overflow-hidden py-4">
+		<div
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 motion-reduce:animate-none"
+			aria-hidden="true"
+		>
 			{#each techs as tech}
 				<div class="group/icon flex flex-col items-center justify-center gap-2">
-					<img 
-						src="https://cdn.simpleicons.org/{tech.slug}" 
+					<img
+						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"
 						width="48"
 						height="48"
 						loading="lazy"
 						decoding="async"
-						class="h-12 w-12 object-contain transition-all duration-300 filter grayscale opacity-40 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 group-hover/icon:scale-110"
+						class="h-12 w-12 object-contain opacity-40 grayscale filter transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:opacity-100 group-hover/icon:grayscale-0"
 					/>
-					<span class="text-xs font-mono text-primary opacity-0 -translate-y-2 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:translate-y-0">
+					<span
+						class="text-primary -translate-y-2 font-mono text-xs opacity-0 transition-all duration-300 group-hover/icon:translate-y-0 group-hover/icon:opacity-100"
+					>
 						{tech.name}
 					</span>
 				</div>
 			{/each}
 		</div>
-		
-		<div class="flex min-w-full shrink-0 items-center justify-around gap-12 animate-marquee motion-reduce:animate-none px-12">
+
+		<div
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 motion-reduce:animate-none"
+		>
 			{#each techs as tech}
 				<div class="group/icon flex flex-col items-center justify-center gap-2">
-					<img 
-						src="https://cdn.simpleicons.org/{tech.slug}" 
+					<img
+						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"
 						width="48"
 						height="48"
 						loading="lazy"
 						decoding="async"
-						class="h-12 w-12 object-contain transition-all duration-300 filter grayscale opacity-40 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 group-hover/icon:scale-110"
+						class="h-12 w-12 object-contain opacity-40 grayscale filter transition-all duration-300 group-hover/icon:scale-110 group-hover/icon:opacity-100 group-hover/icon:grayscale-0"
 					/>
-					<span class="text-xs font-mono text-primary opacity-0 -translate-y-2 transition-all duration-300 group-hover/icon:opacity-100 group-hover/icon:translate-y-0">
+					<span
+						class="text-primary -translate-y-2 font-mono text-xs opacity-0 transition-all duration-300 group-hover/icon:translate-y-0 group-hover/icon:opacity-100"
+					>
 						{tech.name}
 					</span>
 				</div>

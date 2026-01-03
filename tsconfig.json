@@ -12,11 +12,6 @@
 		"moduleResolution": "bundler",
 		"module": "esnext",
 		"verbatimModuleSyntax": true,
-		"types": [
-			"svelte",
-			"vite/client",
-			"vitest/globals",
-			"@testing-library/jest-dom"
-		]
+		"types": ["svelte", "vite/client", "vitest/globals", "@testing-library/jest-dom"]
 	}
 }

@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@config "../tailwind.config.ts";
+@import 'tailwindcss';
+@config '../tailwind.config.ts';
 
 @layer base {
 	:root {
@@ -28,7 +28,6 @@
 	}
 
 	.dark {
-		
 		--background: 240 10% 3.9%;
 		--foreground: 0 0% 98%;
 		--card: 240 10% 3.9%;
@@ -57,9 +56,9 @@
 		@apply border-border;
 	}
 	body {
-		@apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
+		@apply bg-background text-foreground selection:bg-primary/30 font-sans antialiased;
 	}
 	html {
 		scroll-behavior: smooth;
 	}
-}/* test */
+} /* test */
