@@ -3,6 +3,18 @@
 	import BentoGrid from '$lib/components/BentoGrid.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Mail, Terminal, Github } from '@lucide/svelte';
+
+	// Spotlight Effect State
+	let mouseX = 0;
+	let mouseY = 0;
+	let heroElement: HTMLElement;
+
+	function handleMouseMove(e: MouseEvent) {
+		if (!heroElement) return;
+		const rect = heroElement.getBoundingClientRect();
+		mouseX = e.clientX - rect.left;
+		mouseY = e.clientY - rect.top;
+	}
 </script>
 
 <svelte:head>
@@ -10,46 +22,73 @@
 	<link rel="preconnect" href="https://cdn.simpleicons.org" />
 </svelte:head>
 
-<section id="hero" class="relative flex min-h-dvh flex-col items-center justify-between overflow-hidden pt-20">
+<section 
+	id="hero" 
+	bind:this={heroElement}
+	onmousemove={handleMouseMove}
+	class="relative flex min-h-dvh flex-col items-center justify-between overflow-hidden pt-20 group/hero"
+>
 	
-	<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-primary/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none opacity-50 dark:opacity-100"></div>
+	<div class="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
-	<div class="container relative z-10 flex flex-1 flex-col items-center justify-center px-4">
+	<div 
+		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,0.4)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none animate-hero-breathe"
+		style="mask-image: radial-gradient(closest-side, black, transparent); mask-position: center; mask-repeat: no-repeat;"
+	></div>
+
+	<div 
+		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,0.4)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none transition-opacity duration-300 opacity-0 group-hover/hero:opacity-100 will-change-[mask-image]"
+		style="-webkit-mask-image: radial-gradient(350px circle at {mouseX}px {mouseY}px, black, transparent); mask-image: radial-gradient(350px circle at {mouseX}px {mouseY}px, black, transparent);"
+	></div>
+
+	<div 
+		class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100 z-0"
+		style="background: radial-gradient(600px circle at {mouseX}px {mouseY}px, rgba(168, 85, 247, 0.15), transparent 40%);"
+	></div>
+
+	<div class="container relative z-10 flex flex-1 flex-col items-center justify-center px-4 text-center">
 		
-		<div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm text-primary mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-			<span class="relative flex h-2 w-2 mr-2">
-			  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-			  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+		<div class="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 p-1 pr-4 backdrop-blur-sm mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 ring-1 ring-white/10 hover:ring-primary/50 transition-all">
+			<div class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary flex items-center gap-1.5">
+				<span class="relative flex h-1.5 w-1.5">
+				  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+				  <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+				</span>
+				Available
+			</div>
+			<span class="text-sm text-muted-foreground flex items-center gap-2">
+				<Terminal class="h-3 w-3" />
+				MathDesigns
 			</span>
-			Available for hire
-		</div>
-		
-		<div class="flex items-center gap-2 text-muted-foreground font-mono text-lg mb-2 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-100">
-			<Terminal class="h-4 w-4" />
-			<span>MathDesigns</span>
 		</div>
 
-		<h1 class="pb-4 text-5xl font-bold tracking-tighter sm:text-8xl md:text-9xl bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/70 drop-shadow-sm animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 text-center">
+		<h1 class="pb-2 text-6xl font-bold tracking-tighter sm:text-8xl md:text-9xl lg:text-[10rem] bg-clip-text text-transparent bg-linear-to-b from-white to-white/50 drop-shadow-sm animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 selection:bg-primary selection:text-white">
 			Mathéo S.
 		</h1>
 		
-		<p class="mt-4 max-w-2xl mx-auto text-base text-muted-foreground sm:text-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 text-center px-2">
-			Junior Fullstack Developer. Transforming complex logic into 
-			<span class="text-primary font-medium">minimal</span>, 
-			<span class="text-foreground font-medium">high-performance</span> web experiences.
+		<div class="h-6 mb-6 overflow-hidden">
+			<span class="text-lg font-mono bg-linear-to-r from-muted-foreground/50 via-primary to-muted-foreground/50 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer inline-block">
+				Fullstack Developer
+			</span>
+		</div>
+
+		<p class="max-w-xl mx-auto text-base text-muted-foreground/80 sm:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 px-2 leading-relaxed">
+			Transforming complex logic into 
+			<span class="text-foreground font-medium underline decoration-primary/50 underline-offset-4 decoration-2">minimal</span>, 
+			<span class="text-foreground font-medium underline decoration-primary/50 underline-offset-4 decoration-2">high-performance</span> web experiences.
 		</p>
 
-		<div class="mt-10 flex flex-col gap-3 w-full max-w-xs sm:flex-row sm:w-auto sm:max-w-none sm:justify-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-			<Button href="#projects" size="lg" class="rounded-full h-12 w-full sm:w-auto px-8 text-base shadow-lg shadow-primary/20">
+		<div class="mt-10 flex flex-col gap-4 w-full max-w-xs sm:flex-row sm:w-auto sm:max-w-none sm:justify-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+			<Button href="#projects" size="lg" class="rounded-full h-12 px-8 text-base shadow-[0_0_30px_-5px_var(--primary)] shadow-primary/30 hover:shadow-primary/50 transition-shadow">
 				View Work
 			</Button>
-			<Button href="#contact" variant="outline" size="lg" class="rounded-full h-12 w-full sm:w-auto px-8 text-base bg-transparent border-primary/20 hover:bg-primary/5">
+			<Button href="#contact" variant="outline" size="lg" class="rounded-full h-12 px-8 text-base bg-white/5 border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-sm">
 				Contact Me
 			</Button>
 		</div>
 	</div>
 
-	<div class="w-full z-20 mt-8 md:mt-0">
+	<div class="w-full z-20 mt-12 md:mt-0">
 		<TechMarquee />
 	</div>
 </section>
@@ -118,8 +157,7 @@
 		</h2>
 		
 		<p class="text-muted-foreground text-lg sm:text-xl mb-10 max-w-xl">
-			I'm currently looking for new opportunities to join a creative team. 
-			Whether you have a question or just want to say hi, my inbox is always open!
+			I'm currently looking for new opportunities to join a creative team. Whether you have a question or just want to say hi, my inbox is always open!
 		</p>
 		
 		<div class="flex flex-col gap-3 w-full max-w-xs sm:flex-row sm:w-auto sm:max-w-none sm:justify-center">
@@ -133,7 +171,7 @@
 			</Button>
 		</div>
 
-		<footer class="mt-24 pt-8 border-t border-border w-full flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground gap-4">
+		<footer class="mt-24 pt-8 border-t border-border w-full flex flex-col md:flex-row justify-center items-center text-sm text-muted-foreground gap-4">
 			<p>&copy; {new Date().getFullYear()} MathDesigns.</p>
 		</footer>
 	</div>
