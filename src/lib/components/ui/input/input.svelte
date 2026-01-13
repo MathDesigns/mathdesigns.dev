@@ -9,19 +9,13 @@
 	type $$Props = HTMLInputAttributes;
 	type $$Events = InputEvents;
 
-	
-
-	// Workaround for https://github.com/sveltejs/svelte/issues/9305
-	
 	interface Props {
 		class?: $$Props["class"];
 		value?: $$Props["value"];
-		// Fixed in Svelte 5, but not backported to 4.x.
-		readonly?: $$Props["readonly"];
 		[key: string]: any
 	}
 
-	let { class: className = undefined, value = $bindable(undefined), readonly = undefined, ...rest }: Props = $props();
+	let { class: className = undefined, value = $bindable(undefined), ...rest }: Props = $props();
 </script>
 
 <input
@@ -30,7 +24,6 @@
 		className
 	)}
 	bind:value
-	{readonly}
 	onblur={bubble('blur')}
 	onchange={bubble('change')}
 	onclick={bubble('click')}
