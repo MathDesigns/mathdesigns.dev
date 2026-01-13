@@ -75,7 +75,7 @@
 						</div>
 
 						<div
-							class="text-muted-foreground -translate-y-2 rounded-full bg-white/5 p-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+							class="text-muted-foreground -translate-y-2 rounded-full bg-white/5 p-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
 						>
 							<ExternalLink class="h-4 w-4" aria-hidden="true" />
 						</div>
@@ -85,6 +85,7 @@
 						class="text-foreground group-hover:text-primary mb-2 text-xl font-bold tracking-tight transition-colors md:text-2xl"
 					>
 						{project.title}
+						<span class="sr-only">(opens in a new tab)</span>
 					</h3>
 					<p class="text-muted-foreground/80 line-clamp-2 text-sm leading-relaxed md:line-clamp-3">
 						{project.desc}
