@@ -62,7 +62,11 @@ const config: Config = {
 			},
 			animation: {
 				"marquee": "marquee 25s linear infinite",
-				"pulse-glow": "pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+				"pulse-glow": "pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+				"breathe": "breathe 8s ease-in-out infinite",
+				"shimmer": "shimmer 2.5s linear infinite",
+				// New custom animation for the hero grid
+				"hero-breathe": "hero-breathe 6s ease-in-out infinite alternate" 
 			},
 			keyframes: {
 				marquee: {
@@ -72,6 +76,25 @@ const config: Config = {
 				"pulse-glow": {
 					"0%, 100%": { opacity: "1", transform: "scale(1)" },
 					"50%": { opacity: "0.5", transform: "scale(1.05)" }
+				},
+				"breathe": {
+					"0%, 100%": { opacity: "0.5", transform: "scale(1)" },
+					"50%": { opacity: "1", transform: "scale(1.1)" }
+				},
+				"shimmer": {
+					"0%": { backgroundPosition: "0% 50%" },
+					"100%": { backgroundPosition: "200% 50%" }
+				},
+				// Updated to 0-100% opacity and tighter radius (400px to 650px)
+				"hero-breathe": {
+					"0%": { 
+						"mask-size": "400px 400px",
+						"opacity": "0"
+					},
+					"100%": { 
+						"mask-size": "650px 650px",
+						"opacity": "1"
+					}
 				}
 			}
 		}

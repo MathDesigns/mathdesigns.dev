@@ -22,13 +22,12 @@
 	class="bg-background/50 border-border/40 w-full overflow-hidden border-y py-6 backdrop-blur-sm select-none"
 >
 	<div class="group mask-linear-fade flex overflow-hidden py-4">
-		<!-- Performance: 'will-change-transform' promotes this element to a new layer, improving animation smoothness -->
 		<div
-			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none"
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none group-hover:[animation-play-state:paused]"
 			aria-hidden="true"
 		>
 			{#each techs as tech (tech.slug)}
-				<div class="group/icon flex flex-col items-center justify-center gap-2">
+				<div class="group/icon flex flex-col items-center justify-center gap-2 cursor-default">
 					<img
 						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"
@@ -48,10 +47,10 @@
 		</div>
 
 		<div
-			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none"
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none group-hover:[animation-play-state:paused]"
 		>
 			{#each techs as tech (tech.slug)}
-				<div class="group/icon flex flex-col items-center justify-center gap-2">
+				<div class="group/icon flex flex-col items-center justify-center gap-2 cursor-default">
 					<img
 						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"

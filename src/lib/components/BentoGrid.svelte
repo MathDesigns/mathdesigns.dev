@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Github, ExternalLink } from '@lucide/svelte';
+	import { onMount } from 'svelte';
 
 	const projects = [
 		{
@@ -35,15 +36,58 @@
 			glow: 'bg-orange-500'
 		}
 	];
+
+	let mouseX = 0;
+	let mouseY = 0;
+	let gridElement: HTMLElement;
+	let isVisible = false;
+
+	function handleMouseMove(e: MouseEvent) {
+		if (!gridElement) return;
+		const rect = gridElement.getBoundingClientRect();
+		mouseX = e.clientX - rect.left;
+		mouseY = e.clientY - rect.top;
+	}
+
+	onMount(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					isVisible = true;
+					observer.disconnect(); // Animate only once
+				}
+			},
+			{ threshold: 0.1 } // Trigger when 10% of the grid is visible
+		);
+
+		if (gridElement) {
+			observer.observe(gridElement);
+		}
+
+		return () => observer.disconnect();
+	});
 </script>
 
-<div class="grid auto-rows-[220px] grid-cols-1 gap-4 md:auto-rows-[280px] md:grid-cols-3 md:gap-6">
-	{#each projects as project}
+<div
+	bind:this={gridElement}
+	onmousemove={handleMouseMove}
+	class="group/bento relative grid auto-rows-[220px] grid-cols-1 gap-4 md:auto-rows-[280px] md:grid-cols-3 md:gap-6"
+>
+	<div
+		class="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover/bento:opacity-100"
+		style="background: radial-gradient(600px circle at {mouseX}px {mouseY}px, rgba(124, 58, 237, 0.1), transparent 40%);"
+	></div>
+
+	{#each projects as project, i}
 		<a
 			href={project.href}
 			target="_blank"
 			rel="noopener noreferrer"
-			class="group focus-visible:ring-primary focus-visible:ring-offset-background relative overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/40 p-6 transition-all duration-500 hover:border-white/10 hover:shadow-2xl hover:shadow-black/50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:p-8 {project.class}"
+			style="transition-delay: {i * 100}ms"
+			class="group focus-visible:ring-primary focus-visible:ring-offset-background relative overflow-hidden rounded-3xl border border-zinc-200 bg-white/60 p-6 transition-all duration-700 ease-out hover:border-zinc-300 hover:shadow-xl hover:shadow-zinc-200/50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:border-white/5 dark:bg-zinc-900/40 dark:hover:border-white/10 dark:hover:shadow-black/50 md:p-8 {project.class} 
+            {isVisible
+				? 'translate-y-0 opacity-100'
+				: 'translate-y-12 opacity-0'}"
 		>
 			<div
 				class="pointer-events-none absolute inset-0 z-0 opacity-[0.03] mix-blend-overlay"
@@ -51,22 +95,22 @@
 			></div>
 
 			<div
-				class="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-size-[24px_24px]"
+				class="bg-size-[24px_24px] pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
 			></div>
 
 			<div
-				class="absolute -top-20 -right-20 h-64 w-64 rounded-full {project.glow}/20 blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:opacity-40"
+				class="absolute -right-20 -top-20 h-64 w-64 rounded-full {project.glow}/20 blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:opacity-40"
 			></div>
 
 			<div
-				class="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/10 transition-all ring-inset group-hover:ring-white/20"
+				class="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-zinc-900/5 transition-all ring-inset group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20"
 			></div>
 
 			<div class="relative z-10 flex h-full flex-col justify-between">
 				<div>
 					<div class="mb-4 flex items-start justify-between">
 						<div
-							class="rounded-xl border border-white/5 bg-white/5 p-2 backdrop-blur-sm transition-colors group-hover:bg-white/10"
+							class="text-muted-foreground rounded-xl border border-zinc-200 bg-zinc-100 p-2 backdrop-blur-sm transition-colors group-hover:bg-zinc-200 dark:border-white/5 dark:bg-white/5 dark:group-hover:bg-white/10"
 						>
 							<Github
 								class="text-muted-foreground group-hover:text-foreground h-5 w-5 transition-colors"
@@ -75,7 +119,7 @@
 						</div>
 
 						<div
-							class="text-muted-foreground -translate-y-2 rounded-full bg-white/5 p-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+							class="text-muted-foreground -translate-y-2 rounded-full bg-zinc-100 p-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 dark:bg-white/5"
 						>
 							<ExternalLink class="h-4 w-4" aria-hidden="true" />
 						</div>
@@ -95,7 +139,7 @@
 				<div class="mt-4 flex flex-wrap gap-2">
 					{#each project.tags as tag}
 						<span
-							class="text-muted-foreground group-hover:text-foreground inline-flex items-center rounded-md bg-white/5 px-2 py-1 text-[10px] font-medium ring-1 ring-white/10 transition-colors ring-inset group-hover:bg-white/10 md:text-xs"
+							class="text-muted-foreground group-hover:text-foreground inline-flex items-center rounded-md bg-zinc-100 px-2 py-1 text-[10px] font-medium ring-1 ring-zinc-200 transition-colors ring-inset group-hover:bg-zinc-200 dark:bg-white/5 dark:ring-white/10 dark:group-hover:bg-white/10 md:text-xs"
 						>
 							{tag}
 						</span>
