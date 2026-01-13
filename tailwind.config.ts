@@ -65,8 +65,8 @@ const config: Config = {
 				"pulse-glow": "pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
 				"breathe": "breathe 8s ease-in-out infinite",
 				"shimmer": "shimmer 2.5s linear infinite",
-				// New custom animation for the hero grid
-				"hero-breathe": "hero-breathe 6s ease-in-out infinite alternate" 
+				// Faster (3s) and punchier ripple
+				"hero-ripple": "hero-ripple 3s ease-out infinite" 
 			},
 			keyframes: {
 				marquee: {
@@ -85,15 +85,19 @@ const config: Config = {
 					"0%": { backgroundPosition: "0% 50%" },
 					"100%": { backgroundPosition: "200% 50%" }
 				},
-				// Updated to 0-100% opacity and tighter radius (400px to 650px)
-				"hero-breathe": {
+				// Punchy shockwave: Explodes instantly, then fades out
+				"hero-ripple": {
 					"0%": { 
-						"mask-size": "400px 400px",
-						"opacity": "0"
+						"mask-size": "0px 0px",
+						"opacity": "0.5"
+					},
+					"5%": { 
+						"mask-size": "600px 600px", // Fast initial impact
+						"opacity": "1" // Peak brightness
 					},
 					"100%": { 
-						"mask-size": "650px 650px",
-						"opacity": "1"
+						"mask-size": "3000px 3000px", // Expands far beyond screen
+						"opacity": "0"
 					}
 				}
 			}

@@ -32,7 +32,7 @@
 	<div class="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
 	<div 
-		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,0.4)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none animate-hero-breathe"
+		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,1)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none animate-hero-ripple"
 		style="mask-image: radial-gradient(closest-side, black, transparent); mask-position: center; mask-repeat: no-repeat;"
 	></div>
 
@@ -67,7 +67,8 @@
 		</h1>
 		
 		<div class="h-6 mb-6 overflow-hidden">
-			<span class="text-lg font-mono bg-linear-to-r from-muted-foreground/50 via-primary to-muted-foreground/50 bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer inline-block">
+			<span class="text-lg font-mono bg-linear-to-r from-muted-foreground/50 via-primary to-muted-foreground/50 
+bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer inline-block">
 				Fullstack Developer
 			</span>
 		</div>
@@ -104,7 +105,8 @@
 <section id="about" class="container py-20 sm:py-32 scroll-mt-20 border-t border-border/50">
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 		<div class="relative order-2 md:order-1 h-[300px] md:h-[400px] w-full rounded-3xl border border-border bg-card/50 overflow-hidden shadow-2xl group">
-			<div class="absolute inset-0 bg-linear-to-tr from-primary/10 via-transparent to-transparent"></div>
+			<div class="absolute inset-0 bg-linear-to-tr from-primary/10 via-transparent 
+to-transparent"></div>
 			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-48 md:h-48 bg-primary rounded-full blur-[60px] md:blur-[90px] opacity-40 animate-pulse-glow"></div>
 			
 			<div class="absolute bottom-6 left-6 right-6 p-4 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 flex items-center justify-between">
@@ -132,7 +134,9 @@
 			</h2>
 			
 			<p class="text-muted-foreground text-base md:text-lg mb-6 leading-relaxed">
-				I'm Mathéo, a junior developer with a passion for building software that feels right. I don't just write code; I design systems that are scalable, maintainable, and delightful to use.
+				I'm Mathéo, a junior developer with a passion 
+				for building software that feels right. I don't just write code;
+				I design systems that are scalable, maintainable, and delightful to use.
 			</p>
 			
 			<div class="flex flex-wrap gap-4 mt-4">
@@ -157,7 +161,8 @@
 		</h2>
 		
 		<p class="text-muted-foreground text-lg sm:text-xl mb-10 max-w-xl">
-			I'm currently looking for new opportunities to join a creative team. Whether you have a question or just want to say hi, my inbox is always open!
+			I'm currently looking for new opportunities to join a creative team.
+			Whether you have a question or just want to say hi, my inbox is always open!
 		</p>
 		
 		<div class="flex flex-col gap-3 w-full max-w-xs sm:flex-row sm:w-auto sm:max-w-none sm:justify-center">
@@ -172,7 +177,8 @@
 		</div>
 
 		<footer class="mt-24 pt-8 border-t border-border w-full flex flex-col md:flex-row justify-center items-center text-sm text-muted-foreground gap-4">
-			<p>&copy; {new Date().getFullYear()} MathDesigns.</p>
+			<p>&copy;
+				{new Date().getFullYear()} MathDesigns.</p>
 		</footer>
 	</div>
 </section>
