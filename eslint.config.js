@@ -19,12 +19,12 @@ export default ts.config(
 		}
 	},
 	{
-        rules: {
-            'svelte/a11y-no-static-element-interactions': 'error',
-            'svelte/a11y-click-events-have-key-events': 'error',
-            '@typescript-eslint/no-explicit-any': 'error'
-        }
-    },
+		rules: {
+			'svelte/a11y-no-static-element-interactions': 'error',
+			'svelte/a11y-click-events-have-key-events': 'error',
+			'@typescript-eslint/no-explicit-any': 'error'
+		}
+	},
 	{
 		files: ['**/*.svelte'],
 

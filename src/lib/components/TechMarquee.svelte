@@ -23,11 +23,11 @@
 >
 	<div class="group mask-linear-fade flex overflow-hidden py-4">
 		<div
-			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none group-hover:[animation-play-state:paused]"
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform group-hover:[animation-play-state:paused] motion-reduce:animate-none"
 			aria-hidden="true"
 		>
 			{#each techs as tech (tech.slug)}
-				<div class="group/icon flex flex-col items-center justify-center gap-2 cursor-default">
+				<div class="group/icon flex cursor-default flex-col items-center justify-center gap-2">
 					<img
 						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"
@@ -47,10 +47,10 @@
 		</div>
 
 		<div
-			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform motion-reduce:animate-none group-hover:[animation-play-state:paused]"
+			class="animate-marquee flex min-w-full shrink-0 items-center justify-around gap-12 px-12 will-change-transform group-hover:[animation-play-state:paused] motion-reduce:animate-none"
 		>
 			{#each techs as tech (tech.slug)}
-				<div class="group/icon flex flex-col items-center justify-center gap-2 cursor-default">
+				<div class="group/icon flex cursor-default flex-col items-center justify-center gap-2">
 					<img
 						src="https://cdn.simpleicons.org/{tech.slug}"
 						alt="{tech.name} logo"

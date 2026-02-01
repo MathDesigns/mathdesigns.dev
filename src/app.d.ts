@@ -3,7 +3,6 @@ import type { LucideIcon } from '@lucide/svelte';
 
 declare global {
 	namespace App {
-
 		interface Command {
 			id: string;
 			label: string;

@@ -37,10 +37,10 @@
 		}
 	];
 
-	let mouseX = 0;
-	let mouseY = 0;
+	let mouseX = $state(0);
+	let mouseY = $state(0);
 	let gridElement: HTMLElement;
-	let isVisible = false;
+	let isVisible = $state(false);
 
 	function handleMouseMove(e: MouseEvent) {
 		if (!gridElement) return;
@@ -84,10 +84,8 @@
 			target="_blank"
 			rel="noopener noreferrer"
 			style="transition-delay: {i * 100}ms"
-			class="group focus-visible:ring-primary focus-visible:ring-offset-background relative overflow-hidden rounded-3xl border border-zinc-200 bg-white/60 p-6 transition-all duration-700 ease-out hover:border-zinc-300 hover:shadow-xl hover:shadow-zinc-200/50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:border-white/5 dark:bg-zinc-900/40 dark:hover:border-white/10 dark:hover:shadow-black/50 md:p-8 {project.class} 
-            {isVisible
-				? 'translate-y-0 opacity-100'
-				: 'translate-y-12 opacity-0'}"
+			class="group focus-visible:ring-primary focus-visible:ring-offset-background relative overflow-hidden rounded-3xl border border-zinc-200 bg-white/60 p-6 transition-all duration-700 ease-out hover:border-zinc-300 hover:shadow-xl hover:shadow-zinc-200/50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:p-8 dark:border-white/5 dark:bg-zinc-900/40 dark:hover:border-white/10 dark:hover:shadow-black/50 {project.class}
+            {isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}"
 		>
 			<div
 				class="pointer-events-none absolute inset-0 z-0 opacity-[0.03] mix-blend-overlay"
@@ -95,11 +93,11 @@
 			></div>
 
 			<div
-				class="bg-size-[24px_24px] pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+				class="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-size-[24px_24px]"
 			></div>
 
 			<div
-				class="absolute -right-20 -top-20 h-64 w-64 rounded-full {project.glow}/20 blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:opacity-40"
+				class="absolute -top-20 -right-20 h-64 w-64 rounded-full {project.glow}/20 blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:opacity-40"
 			></div>
 
 			<div
@@ -139,7 +137,7 @@
 				<div class="mt-4 flex flex-wrap gap-2">
 					{#each project.tags as tag}
 						<span
-							class="text-muted-foreground group-hover:text-foreground inline-flex items-center rounded-md bg-zinc-100 px-2 py-1 text-[10px] font-medium ring-1 ring-zinc-200 transition-colors ring-inset group-hover:bg-zinc-200 dark:bg-white/5 dark:ring-white/10 dark:group-hover:bg-white/10 md:text-xs"
+							class="text-muted-foreground group-hover:text-foreground inline-flex items-center rounded-md bg-zinc-100 px-2 py-1 text-[10px] font-medium ring-1 ring-zinc-200 transition-colors ring-inset group-hover:bg-zinc-200 md:text-xs dark:bg-white/5 dark:ring-white/10 dark:group-hover:bg-white/10"
 						>
 							{tag}
 						</span>
