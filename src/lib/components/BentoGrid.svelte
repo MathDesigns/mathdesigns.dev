@@ -37,16 +37,16 @@
 		}
 	];
 
-	let mouseX = 0;
-	let mouseY = 0;
 	let gridElement: HTMLElement;
+	let glowElement: HTMLElement;
 	let isVisible = false;
 
 	function handleMouseMove(e: MouseEvent) {
-		if (!gridElement) return;
+		if (!gridElement || !glowElement) return;
 		const rect = gridElement.getBoundingClientRect();
-		mouseX = e.clientX - rect.left;
-		mouseY = e.clientY - rect.top;
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		glowElement.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(124, 58, 237, 0.1), transparent 40%)`;
 	}
 
 	onMount(() => {
@@ -74,11 +74,11 @@
 	class="group/bento relative grid auto-rows-[220px] grid-cols-1 gap-4 md:auto-rows-[280px] md:grid-cols-3 md:gap-6"
 >
 	<div
+		bind:this={glowElement}
 		class="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover/bento:opacity-100"
-		style="background: radial-gradient(600px circle at {mouseX}px {mouseY}px, rgba(124, 58, 237, 0.1), transparent 40%);"
 	></div>
 
-	{#each projects as project, i}
+	{#each projects as project, i (project.title)}
 		<a
 			href={project.href}
 			target="_blank"
