@@ -63,12 +63,12 @@
 		data-slot="button"
 		class={cn(buttonVariants({ variant, size }), className)}
 		href={disabled ? undefined : href}
-		{target}
-		rel={target === '_blank' ? (rel ? `${rel} noopener noreferrer` : 'noopener noreferrer') : rel}
 		aria-disabled={disabled}
 		role={disabled ? 'link' : undefined}
 		tabindex={disabled ? -1 : undefined}
 		{...restProps}
+		{target}
+		rel={target === '_blank' ? (rel ? `${rel} noopener noreferrer` : 'noopener noreferrer') : rel}
 	>
 		{@render children?.()}
 	</a>
