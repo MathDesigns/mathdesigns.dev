@@ -4,17 +4,31 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Mail, Terminal, Github } from '@lucide/svelte';
 
-	// Spotlight Effect State
-	let mouseX = 0;
-	let mouseY = 0;
-	let heroElement: HTMLElement;
+	import { Canvas } from '@threlte/core';
+	import BackgroundGrid from '$lib/components/BackgroundGrid.svelte';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
-	function handleMouseMove(e: MouseEvent) {
-		if (!heroElement) return;
-		const rect = heroElement.getBoundingClientRect();
-		mouseX = e.clientX - rect.left;
-		mouseY = e.clientY - rect.top;
-	}
+	// Default to false so we safely render the CSS fallback first
+	let canRender3D = $state(false);
+
+	onMount(() => {
+		// Only run this test in the browser
+		if (browser) {
+			try {
+				// Create a phantom canvas to test graphics capabilities
+				const testCanvas = document.createElement('canvas');
+				const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+				// If gl exists and isn't blocked, we are clear for takeoff
+				if (gl && gl instanceof WebGLRenderingContext) {
+					canRender3D = true;
+				}
+			} catch (e) {
+				console.warn("WebGL not available, sticking to CSS fallback.");
+				canRender3D = false;
+			}
+		}
+	});
 </script>
 
 <svelte:head>
@@ -24,56 +38,36 @@
 
 <section 
 	id="hero" 
-	bind:this={heroElement}
-	onmousemove={handleMouseMove}
-	class="relative flex min-h-dvh flex-col items-center justify-between overflow-hidden pt-20 group/hero"
+	class="relative flex min-h-dvh flex-col items-center justify-between overflow-hidden pt-20"
 >
-	
-	<div class="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
-
 	<div 
-		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,1)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none animate-hero-ripple"
-		style="mask-image: radial-gradient(closest-side, black, transparent); mask-position: center; mask-repeat: no-repeat;"
-	></div>
-
-	<div 
-		class="absolute inset-0 z-0 bg-[linear-gradient(to_right,rgba(168,85,247,0.4)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,0.4)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none transition-opacity duration-300 opacity-0 group-hover/hero:opacity-100 will-change-[mask-image]"
-		style="-webkit-mask-image: radial-gradient(350px circle at {mouseX}px {mouseY}px, black, transparent); mask-image: radial-gradient(350px circle at {mouseX}px {mouseY}px, black, transparent);"
-	></div>
-
-	<div 
-		class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100 z-0"
-		style="background: radial-gradient(600px circle at {mouseX}px {mouseY}px, rgba(168, 85, 247, 0.15), transparent 40%);"
-	></div>
+		class="absolute inset-0 z-0 bg-background pointer-events-none" 
+		style="mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);"
+	>
+		{#if canRender3D}
+			<Canvas>
+				<BackgroundGrid />
+			</Canvas>
+		{:else}
+			<div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(168,85,247,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(168,85,247,0.1)_1px,transparent_1px)] bg-[size:4rem_4rem] perspective-[1000px]">
+				<div class="absolute bottom-[-40%] left-[-50%] right-[-50%] h-[200%] origin-center border-t border-primary/20 bg-background/50 backdrop-blur-sm" style="transform: rotateX(70deg) rotateZ(-45deg);"></div>
+			</div>
+		{/if}
+	</div>
 
 	<div class="container relative z-10 flex flex-1 flex-col items-center justify-center px-4 text-center">
-		
-		<div class="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 p-1 pr-4 backdrop-blur-sm mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 ring-1 ring-white/10 hover:ring-primary/50 transition-all">
-			<div class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary flex items-center gap-1.5">
-				<span class="relative flex h-1.5 w-1.5">
-				  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-				  <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-				</span>
-				Available
-			</div>
-			<span class="text-sm text-muted-foreground flex items-center gap-2">
-				<Terminal class="h-3 w-3" />
-				MathDesigns
-			</span>
-		</div>
 
-		<h1 class="pb-2 text-6xl font-bold tracking-tighter sm:text-8xl md:text-9xl lg:text-[10rem] bg-clip-text text-transparent bg-linear-to-b from-white to-white/50 drop-shadow-sm animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 selection:bg-primary selection:text-white">
+		<h1 class="pb-2 text-6xl font-bold tracking-tighter sm:text-8xl md:text-9xl lg:text-[10rem] bg-clip-text text-transparent bg-linear-to-b from-foreground to-muted-foreground drop-shadow-sm animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 selection:bg-primary selection:text-white">
 			Mathéo S.
 		</h1>
 		
 		<div class="h-6 mb-6 overflow-hidden">
-			<span class="text-lg font-mono bg-linear-to-r from-muted-foreground/50 via-primary to-muted-foreground/50 
-bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer inline-block">
+			<span class="text-lg font-mono text-foreground bg-[length:200%_auto] bg-clip-text animate-shimmer inline-block">
 				Fullstack Developer
 			</span>
 		</div>
 
-		<p class="max-w-xl mx-auto text-base text-muted-foreground/80 sm:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 px-2 leading-relaxed">
+		<p class="max-w-xl mx-auto text-base text-muted-foreground sm:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 px-2 leading-relaxed">
 			Transforming complex logic into 
 			<span class="text-foreground font-medium underline decoration-primary/50 underline-offset-4 decoration-2">minimal</span>, 
 			<span class="text-foreground font-medium underline decoration-primary/50 underline-offset-4 decoration-2">high-performance</span> web experiences.
@@ -83,7 +77,7 @@ bg-[length:200%_auto] bg-clip-text text-transparent animate-shimmer inline-block
 			<Button href="#projects" size="lg" class="rounded-full h-12 px-8 text-base shadow-[0_0_30px_-5px_var(--primary)] shadow-primary/30 hover:shadow-primary/50 transition-shadow">
 				View Work
 			</Button>
-			<Button href="#contact" variant="outline" size="lg" class="rounded-full h-12 px-8 text-base bg-white/5 border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-sm">
+			<Button href="#contact" variant="outline" size="lg" class="rounded-full h-12 px-8 text-base bg-background/50 border-border hover:bg-muted hover:text-foreground backdrop-blur-sm">
 				Contact Me
 			</Button>
 		</div>

@@ -30,7 +30,7 @@
 	});
 </script>
 
-<div class="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transform w-[95%] md:w-auto max-w-md md:max-w-none">
+<div class="fixed left-1/2 z-50 -translate-x-1/2 transform w-[95%] md:w-auto max-w-md md:max-w-none transition-all duration-500 ease-in-out bottom-6 md:bottom-auto md:top-6">
 	<nav
 		class="hidden md:flex items-center gap-1 rounded-full border border-zinc-200 dark:border-white/10 bg-white/80 dark:bg-black/50 p-2 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:bg-white/90 dark:hover:bg-black/70 hover:shadow-primary/20 hover:ring-1 hover:ring-primary/50"
 	>

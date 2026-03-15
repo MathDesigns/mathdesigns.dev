@@ -28,20 +28,20 @@
 	}
 
 	.dark {
-		/* Deepest Black (Pure Black) */
-		--background: 0 0% 0%;
+		/* Deep Zinc (Zinc-950) instead of pure black */
+		--background: 240 5.9% 3.9%;
 		--foreground: 0 0% 98%;
 		
-		--card: 0 0% 0%;
+		/* Slightly lighter for cards to create depth (Zinc-900) */
+		--card: 240 5.9% 5.9%;
 		--card-foreground: 0 0% 98%;
 		
-		--popover: 0 0% 0%;
+		--popover: 240 5.9% 5.9%;
 		--popover-foreground: 0 0% 98%;
 
 		--primary: 263 70% 75%;
 		--primary-foreground: 240 5.9% 10%;
 		
-		/* Reverted to neutral Zinc (240) for contrast against the black */
 		--secondary: 240 3.7% 15.9%;
 		--secondary-foreground: 0 0% 98%;
 		
