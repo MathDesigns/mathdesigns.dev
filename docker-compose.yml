@@ -3,16 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: mathlab/svelte-deploy:latest
     container_name: svelte-deploy
     user: "1337"
     environment:
-      - NODE_ENV=production
-      - TZ=Europe/Brussels
+      NODE_ENV: production
+      TZ: Europe/Brussels
+      HOST: 0.0.0.0
+      PORT: "3000"
     restart: unless-stopped
-    ports:
-      - '3000:3000'
     networks:
-      - caddy
+      - proxy
+
 networks:
-  caddy:
+  proxy:
     external: true
